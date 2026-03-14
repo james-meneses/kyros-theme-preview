@@ -94,6 +94,7 @@ const headingFontOptions = {
   outfit: { label: "Outfit", value: "'Outfit', system-ui, sans-serif" },
   sora: { label: "Sora", value: "'Sora', system-ui, sans-serif" },
   manrope: { label: "Manrope", value: "'Manrope', system-ui, sans-serif" },
+  "source-sans": { label: "Source Sans 3", value: "'Source Sans 3', system-ui, sans-serif" },
 };
 
 const bodyFontOptions = {
@@ -104,6 +105,7 @@ const bodyFontOptions = {
   "dm-sans": { label: "DM Sans", value: "'DM Sans', system-ui, sans-serif" },
   "ibm-plex": { label: "IBM Plex Sans", value: "'IBM Plex Sans', system-ui, sans-serif" },
   "nunito-sans": { label: "Nunito Sans", value: "'Nunito Sans', system-ui, sans-serif" },
+  "source-sans": { label: "Source Sans 3", value: "'Source Sans 3', system-ui, sans-serif" },
 };
 
 const radiusOptions = ["0.25rem", "0.5rem", "0.625rem", "0.75rem", "1rem"];

@@ -422,15 +422,19 @@ export function TypographySection({ vars }: TypographySectionProps) {
           // FONT_COMPARISON
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {([
-            { label: "GEIST", family: "'Geist', system-ui, sans-serif" },
+            { label: "GEIST", family: "'Geist Variable', 'Geist', system-ui, sans-serif" },
             { label: "INTER", family: "'Inter', system-ui, sans-serif" },
             { label: "SPACE_GROTESK", family: "'Space Grotesk', system-ui, sans-serif" },
+            { label: "PLUS_JAKARTA", family: "'Plus Jakarta Sans', system-ui, sans-serif" },
+            { label: "OUTFIT", family: "'Outfit', system-ui, sans-serif" },
+            { label: "SORA", family: "'Sora', system-ui, sans-serif" },
+            { label: "MANROPE", family: "'Manrope', system-ui, sans-serif" },
           ] as const).map(({ label, family }) => (
             <div
               key={label}
-              className="border p-6"
+              className="border p-5"
               style={{
                 borderColor: "var(--border)",
                 borderRadius: "var(--radius)",
@@ -438,14 +442,14 @@ export function TypographySection({ vars }: TypographySectionProps) {
               }}
             >
               <span
-                className="text-xs font-mono mb-4 block"
+                className="text-[10px] font-mono mb-3 block"
                 style={{ color: "var(--primary)", fontFamily: "var(--font-mono)" }}
               >
                 [{label}]
               </span>
 
               <h3
-                className="text-2xl font-bold mb-2 leading-tight"
+                className="text-xl font-bold mb-2 leading-tight"
                 style={{ fontFamily: family }}
               >
                 Agent Fleet

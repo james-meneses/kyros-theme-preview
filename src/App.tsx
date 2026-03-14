@@ -86,10 +86,24 @@ const themes = {
 type ThemeKey = keyof typeof themes;
 const themeKeys = Object.keys(themes) as ThemeKey[];
 
-const fontOptions = {
-  geist: { label: "Geist", value: "'Geist', system-ui, sans-serif" },
+const headingFontOptions = {
+  geist: { label: "Geist", value: "'Geist Variable', 'Geist', system-ui, sans-serif" },
   inter: { label: "Inter", value: "'Inter', system-ui, sans-serif" },
   "space-grotesk": { label: "Space Grotesk", value: "'Space Grotesk', system-ui, sans-serif" },
+  "plus-jakarta": { label: "Plus Jakarta Sans", value: "'Plus Jakarta Sans', system-ui, sans-serif" },
+  outfit: { label: "Outfit", value: "'Outfit', system-ui, sans-serif" },
+  sora: { label: "Sora", value: "'Sora', system-ui, sans-serif" },
+  manrope: { label: "Manrope", value: "'Manrope', system-ui, sans-serif" },
+};
+
+const bodyFontOptions = {
+  geist: { label: "Geist", value: "'Geist Variable', 'Geist', system-ui, sans-serif" },
+  inter: { label: "Inter", value: "'Inter', system-ui, sans-serif" },
+  "space-grotesk": { label: "Space Grotesk", value: "'Space Grotesk', system-ui, sans-serif" },
+  "plus-jakarta": { label: "Plus Jakarta Sans", value: "'Plus Jakarta Sans', system-ui, sans-serif" },
+  "dm-sans": { label: "DM Sans", value: "'DM Sans', system-ui, sans-serif" },
+  "ibm-plex": { label: "IBM Plex Sans", value: "'IBM Plex Sans', system-ui, sans-serif" },
+  "nunito-sans": { label: "Nunito Sans", value: "'Nunito Sans', system-ui, sans-serif" },
 };
 
 const radiusOptions = ["0.25rem", "0.5rem", "0.625rem", "0.75rem", "1rem"];
@@ -98,8 +112,8 @@ function buildVars(themeKey: ThemeKey, headingFont: string, bodyFont: string, ra
   const theme = themes[themeKey];
   const base = {
     ...theme.vars,
-    "--font-heading": fontOptions[headingFont as keyof typeof fontOptions]?.value ?? theme.vars["--font-heading"],
-    "--font-body": fontOptions[bodyFont as keyof typeof fontOptions]?.value ?? theme.vars["--font-body"],
+    "--font-heading": headingFontOptions[headingFont as keyof typeof headingFontOptions]?.value ?? theme.vars["--font-heading"],
+    "--font-body": bodyFontOptions[bodyFont as keyof typeof bodyFontOptions]?.value ?? theme.vars["--font-body"],
     "--radius": radius,
   };
 
@@ -247,7 +261,7 @@ export default function App() {
               color: "var(--foreground)",
             }}
           >
-            {Object.entries(fontOptions).map(([k, v]) => (
+            {Object.entries(headingFontOptions).map(([k, v]) => (
               <option key={k} value={k}>{v.label}</option>
             ))}
           </select>
@@ -265,7 +279,7 @@ export default function App() {
               color: "var(--foreground)",
             }}
           >
-            {Object.entries(fontOptions).map(([k, v]) => (
+            {Object.entries(bodyFontOptions).map(([k, v]) => (
               <option key={k} value={k}>{v.label}</option>
             ))}
           </select>

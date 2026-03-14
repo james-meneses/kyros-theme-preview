@@ -43,15 +43,7 @@ body {
   --accent: #C3FF49;
 }
 
-/* Reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* Font smoothing — no padding/margin reset, Tailwind handles that via preflight */
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

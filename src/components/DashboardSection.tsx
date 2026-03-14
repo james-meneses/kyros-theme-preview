@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
+import { Input } from "@/components/ui/input"
 
 /* ─────────────────────────────────────────────────
    Mock data
@@ -138,71 +140,68 @@ export function DashboardSection() {
               // AGENT_STATUS
             </span>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] text-sm" style={{ fontFamily: "var(--font-body)" }}>
-              <thead>
-                <tr
-                  style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border)" }}
-                >
-                  {["AGENT", "ROLE", "STATUS", "CURRENT_TASK", "TOKENS"].map((col) => (
-                    <th
-                      key={col}
-                      className="px-4 py-2.5 text-left text-[10px] font-mono font-semibold uppercase tracking-wider"
-                      style={{ color: "var(--foreground-muted)" }}
-                    >
-                      {col}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {agents.map((agent, i) => (
-                  <tr
-                    key={agent.name}
-                    className="transition-colors"
-                    style={{
-                      backgroundColor: i % 2 === 0 ? "var(--bg-card)" : "var(--bg-secondary)",
-                      borderBottom: "1px solid var(--border)",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = "var(--accent-muted)"
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = i % 2 === 0 ? "var(--bg-card)" : "var(--bg-secondary)"
-                    }}
+          <Table className="min-w-[600px]" style={{ fontFamily: "var(--font-body)" }}>
+            <TableHeader>
+              <TableRow
+                style={{ backgroundColor: "var(--bg-secondary)" }}
+              >
+                {["AGENT", "ROLE", "STATUS", "CURRENT_TASK", "TOKENS"].map((col) => (
+                  <TableHead
+                    key={col}
+                    className="px-4 py-2.5 text-[10px] font-mono font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--foreground-muted)" }}
                   >
-                    <td className="px-4 py-3 font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
-                      {agent.name}
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge variant="secondary">[{agent.role}]</Badge>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="inline-flex items-center gap-2 text-xs">
-                        <span
-                          className="inline-block h-2 w-2 rounded-full"
-                          style={{ backgroundColor: statusColor[agent.status] }}
-                        />
-                        <span style={{ color: statusColor[agent.status] }}>{agent.status}</span>
-                      </span>
-                    </td>
-                    <td
-                      className="px-4 py-3 max-w-[260px] truncate text-xs"
-                      style={{ color: "var(--foreground-muted)" }}
-                    >
-                      {agent.task}
-                    </td>
-                    <td
-                      className="px-4 py-3 text-right font-mono text-xs tabular-nums"
-                      style={{ color: "var(--foreground-muted)" }}
-                    >
-                      {agent.tokens > 0 ? agent.tokens.toLocaleString() : "—"}
-                    </td>
-                  </tr>
+                    {col}
+                  </TableHead>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {agents.map((agent, i) => (
+                <TableRow
+                  key={agent.name}
+                  className="transition-colors"
+                  style={{
+                    backgroundColor: i % 2 === 0 ? "var(--bg-card)" : "var(--bg-secondary)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "var(--accent-muted)"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = i % 2 === 0 ? "var(--bg-card)" : "var(--bg-secondary)"
+                  }}
+                >
+                  <TableCell className="px-4 py-3 font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+                    {agent.name}
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Badge variant="secondary">[{agent.role}]</Badge>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <span className="inline-flex items-center gap-2 text-xs">
+                      <span
+                        className="inline-block h-2 w-2 rounded-full"
+                        style={{ backgroundColor: statusColor[agent.status] }}
+                      />
+                      <span style={{ color: statusColor[agent.status] }}>{agent.status}</span>
+                    </span>
+                  </TableCell>
+                  <TableCell
+                    className="px-4 py-3 max-w-[260px] truncate text-xs"
+                    style={{ color: "var(--foreground-muted)" }}
+                  >
+                    {agent.task}
+                  </TableCell>
+                  <TableCell
+                    className="px-4 py-3 text-right font-mono text-xs tabular-nums"
+                    style={{ color: "var(--foreground-muted)" }}
+                  >
+                    {agent.tokens > 0 ? agent.tokens.toLocaleString() : "—"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
 
@@ -232,25 +231,15 @@ export function DashboardSection() {
                 >
                   TASK_DESCRIPTION
                 </label>
-                <input
+                <Input
                   type="text"
                   readOnly
                   defaultValue="Add rate limiting to public API endpoints"
-                  className="w-full px-3 py-2 text-sm border outline-none transition-colors"
+                  className="h-10 px-3 py-2 text-sm"
                   style={{
                     backgroundColor: "var(--bg-secondary)",
-                    borderColor: "var(--border)",
-                    borderRadius: "var(--radius)",
                     color: "var(--foreground)",
                     fontFamily: "var(--font-body)",
-                  }}
-                  onFocus={(e) => {
-                    e.currentTarget.style.borderColor = "var(--primary)"
-                    e.currentTarget.style.boxShadow = "0 0 0 2px var(--accent-muted)"
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.borderColor = "var(--border)"
-                    e.currentTarget.style.boxShadow = "none"
                   }}
                 />
               </div>

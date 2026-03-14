@@ -96,11 +96,28 @@ const radiusOptions = ["0.25rem", "0.5rem", "0.625rem", "0.75rem", "1rem"];
 
 function buildVars(themeKey: ThemeKey, headingFont: string, bodyFont: string, radius: string): Record<string, string> {
   const theme = themes[themeKey];
-  return {
+  const base = {
     ...theme.vars,
     "--font-heading": fontOptions[headingFont as keyof typeof fontOptions]?.value ?? theme.vars["--font-heading"],
     "--font-body": fontOptions[bodyFont as keyof typeof fontOptions]?.value ?? theme.vars["--font-body"],
     "--radius": radius,
+  };
+
+  // Bridge: emit shadcn-compatible CSS variable aliases so that
+  // Tailwind utility classes like bg-card, text-primary, etc. resolve
+  // to our theme values via inline style inheritance.
+  return {
+    ...base,
+    "--background": base["--bg"],
+    "--card": base["--bg-card"],
+    "--card-foreground": base["--foreground"],
+    "--secondary-foreground": base["--foreground"],
+    "--accent-foreground": base["--foreground"],
+    "--input": base["--border"],
+    "--ring": base["--primary"],
+    "--destructive": "#EF4444",
+    "--popover": base["--bg-card"],
+    "--popover-foreground": base["--foreground"],
   };
 }
 

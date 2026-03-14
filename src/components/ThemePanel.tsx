@@ -58,7 +58,7 @@ export function ThemePanel({
               boxShadow: "var(--shadow)",
             }}
           >
-            Start Building &rarr;
+            Start Building →
           </button>
           <button
             className="border px-6 py-3 text-sm font-medium transition-all hover:opacity-80 cursor-pointer"
@@ -151,8 +151,8 @@ export function ThemePanel({
               tags: ["QA", "METRICS"],
             },
           ].map((item) => (
-            <Card key={item.step} className="p-6 gap-0 hover:ring-foreground/20">
-              <CardContent className="p-0 flex flex-col flex-1">
+            <Card key={item.step} className="hover:ring-foreground/25">
+              <CardContent className="flex flex-col flex-1">
                 <div
                   className="mb-3 inline-block rounded-full px-3 py-1 font-mono text-xs"
                   style={{
@@ -206,8 +206,8 @@ export function ThemePanel({
             { name: "Grace", role: "ARCHITECT", color: "#C3FF49", status: "ACTIVE" },
             { name: "Atlas", role: "QA_ENGINEER", color: "#FBBF24", status: "IDLE" },
           ].map((agent) => (
-            <Card key={agent.name} className="p-4 gap-0">
-              <CardContent className="p-0">
+            <Card key={agent.name}>
+              <CardContent>
                 <div
                   className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold"
                   style={{ backgroundColor: agent.color + "20", color: agent.color }}
@@ -279,21 +279,21 @@ export function ThemePanel({
               <span style={{ color: "var(--foreground-muted)" }}>$</span>{" "}
               <span style={{ color: "var(--primary)" }}>kyros dispatch</span>{" "}
               <span style={{ color: "var(--foreground)" }}>
-                &quot;Add OAuth2 login with Google and GitHub providers&quot;
+                "Add OAuth2 login with Google and GitHub providers"
               </span>
               {"\n\n"}
               <span style={{ color: "var(--foreground-muted)" }}>
-                &rarr; Assembling team: Akira (backend), Zara (frontend), Grace (review)
+                → Assembling team: Akira (backend), Zara (frontend), Grace (review)
               </span>
               {"\n"}
               <span style={{ color: "var(--foreground-muted)" }}>
-                &rarr; Sprint created: 3 tasks, estimated 45 min
+                → Sprint created: 3 tasks, estimated 45 min
               </span>
               {"\n"}
-              <span style={{ color: "var(--primary)" }}>&rarr; Agents executing...</span>
+              <span style={{ color: "var(--primary)" }}>→ Agents executing...</span>
               {"\n\n"}
               <span style={{ color: "var(--secondary)" }}>
-                &check; PR #247 ready for review (18 files, 1,240 lines, 186 tests passing)
+                ✓ PR #247 ready for review (18 files, 1,240 lines, 186 tests passing)
               </span>
             </code>
           </pre>
@@ -326,7 +326,7 @@ export function ThemePanel({
             boxShadow: "var(--shadow)",
           }}
         >
-          Apply for Early Access &rarr;
+          Apply for Early Access →
         </button>
       </section>
 

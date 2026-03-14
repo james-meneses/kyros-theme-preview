@@ -75,8 +75,8 @@ export function DashboardSection() {
       {/* ── Stats Row ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {stats.map((s) => (
-          <Card key={s.label} className="p-4 gap-0">
-            <CardContent className="p-0">
+          <Card key={s.label}>
+            <CardContent>
               <div className="flex items-center justify-between mb-2">
                 <span
                   className="text-[10px] font-mono uppercase tracking-wider"
@@ -127,8 +127,8 @@ export function DashboardSection() {
       </div>
 
       {/* ── Agent Status Table ── */}
-      <Card className="mb-6 gap-0 py-0 overflow-hidden">
-        <CardContent className="p-0">
+      <Card className="mb-6 p-0">
+        <CardContent>
           <div
             className="px-4 py-3 border-b"
             style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-secondary)" }}
@@ -200,8 +200,8 @@ export function DashboardSection() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
         {/* ── Dispatch Form ── */}
-        <Card className="lg:col-span-3 gap-0 py-0">
-          <CardContent className="p-0">
+        <Card className="lg:col-span-3 p-0">
+          <CardContent>
             <div
               className="px-4 py-3 border-b"
               style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-secondary)" }}
@@ -305,15 +305,15 @@ export function DashboardSection() {
                   fontFamily: "var(--font-heading)",
                 }}
               >
-                DISPATCH &rarr;
+                DISPATCH →
               </button>
             </div>
           </CardContent>
         </Card>
 
         {/* ── Activity Feed ── */}
-        <Card className="lg:col-span-2 gap-0 py-0">
-          <CardContent className="p-0">
+        <Card className="lg:col-span-2 p-0">
+          <CardContent>
             <div
               className="px-4 py-3 border-b"
               style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-secondary)" }}

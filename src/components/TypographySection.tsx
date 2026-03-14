@@ -106,7 +106,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
                   className="text-xs font-mono"
                   style={{ color: "var(--foreground-muted)" }}
                 >
-                  {level} &middot; {size}
+                  {level} · {size}
                 </span>
                 <br />
                 <span
@@ -159,7 +159,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
               className="text-xs font-mono mb-2 block"
               style={{ color: "var(--muted-foreground)" }}
             >
-              [BASE] text-base &middot; 1rem
+              [BASE] text-base · 1rem
             </span>
             <p
               className="text-base leading-relaxed"
@@ -177,7 +177,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
               className="text-xs font-mono mb-2 block"
               style={{ color: "var(--muted-foreground)" }}
             >
-              [SMALL] text-sm &middot; 0.875rem
+              [SMALL] text-sm · 0.875rem
             </span>
             <p
               className="text-sm leading-relaxed"
@@ -195,15 +195,15 @@ export function TypographySection({ vars }: TypographySectionProps) {
               className="text-xs font-mono mb-2 block"
               style={{ color: "var(--muted-foreground)" }}
             >
-              [XS] text-xs &middot; 0.75rem
+              [XS] text-xs · 0.75rem
             </span>
             <p
               className="text-xs leading-relaxed"
               style={{ color: "var(--muted-foreground)", fontFamily: "var(--font-body)" }}
             >
-              Last dispatch: 2m ago &middot; Queue depth: 3 tasks &middot; Active agents: 12/18 &middot;
-              Avg response time: 847ms &middot; Token usage: 14.2K (prompt) + 3.8K (completion) &middot;
-              Cost: $0.079 &middot; Review cycle: 1 of 3 &middot; CI status: passing
+              Last dispatch: 2m ago · Queue depth: 3 tasks · Active agents: 12/18 ·
+              Avg response time: 847ms · Token usage: 14.2K (prompt) + 3.8K (completion) ·
+              Cost: $0.079 · Review cycle: 1 of 3 · CI status: passing
             </p>
           </div>
         </div>
@@ -399,7 +399,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
                 {"          qa_engineer       "}
                 <span style={{ color: "var(--foreground-muted)" }}>IDLE</span>
                 {"      0\n\n"}
-                <span style={{ color: "var(--secondary)" }}>&check; 4 agents registered, 3 active</span>
+                <span style={{ color: "var(--secondary)" }}>✓ 4 agents registered, 3 active</span>
               </code>
             </pre>
           </div>
@@ -464,7 +464,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
                 className="text-xs leading-relaxed"
                 style={{ fontFamily: family, color: "var(--muted-foreground)" }}
               >
-                Queue depth: 3 &middot; Active: 12/18 &middot; Avg: 847ms
+                Queue depth: 3 · Active: 12/18 · Avg: 847ms
               </p>
             </div>
           ))}
@@ -593,7 +593,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
           className="mt-4 text-[10px] font-mono"
           style={{ color: "var(--muted-foreground)" }}
         >
-          WCAG 2.1 — AA: 4.5:1 normal / 3:1 large &middot; AAA: 7:1 normal / 4.5:1 large
+          WCAG 2.1 — AA: 4.5:1 normal / 3:1 large · AAA: 7:1 normal / 4.5:1 large
         </p>
       </div>
     </section>

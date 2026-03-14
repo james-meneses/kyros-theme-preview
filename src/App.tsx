@@ -84,6 +84,7 @@ const themes = {
 } as const;
 
 type ThemeKey = keyof typeof themes;
+const themeKeys = Object.keys(themes) as ThemeKey[];
 
 const fontOptions = {
   geist: { label: "Geist", value: "'Geist', system-ui, sans-serif" },
@@ -93,19 +94,71 @@ const fontOptions = {
 
 const radiusOptions = ["0.25rem", "0.5rem", "0.625rem", "0.75rem", "1rem"];
 
-export default function App() {
-  const [activeTheme, setActiveTheme] = useState<ThemeKey>("neon-night");
-  const [headingFont, setHeadingFont] = useState("geist");
-  const [bodyFont, setBodyFont] = useState("geist");
-  const [radius, setRadius] = useState("0.625rem");
-
-  const theme = themes[activeTheme];
-  const vars: Record<string, string> = {
+function buildVars(themeKey: ThemeKey, headingFont: string, bodyFont: string, radius: string): Record<string, string> {
+  const theme = themes[themeKey];
+  return {
     ...theme.vars,
     "--font-heading": fontOptions[headingFont as keyof typeof fontOptions]?.value ?? theme.vars["--font-heading"],
     "--font-body": fontOptions[bodyFont as keyof typeof fontOptions]?.value ?? theme.vars["--font-body"],
     "--radius": radius,
   };
+}
+
+/** Small inline theme selector rendered on each panel in compare mode */
+function PanelThemeSelector({
+  value,
+  onChange,
+  vars,
+}: {
+  value: ThemeKey;
+  onChange: (key: ThemeKey) => void;
+  vars: Record<string, string>;
+}) {
+  return (
+    <div
+      className="absolute top-3 right-3 z-10"
+    >
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as ThemeKey)}
+        className="rounded border px-2 py-1 text-xs font-mono cursor-pointer"
+        style={{
+          backgroundColor: vars["--bg-secondary"],
+          borderColor: vars["--border"],
+          color: vars["--foreground"],
+          borderRadius: vars["--radius"],
+        }}
+      >
+        {themeKeys.map((key) => (
+          <option key={key} value={key}>
+            {themes[key].label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+export default function App() {
+  const [activeTheme, setActiveTheme] = useState<ThemeKey>("neon-night");
+  const [headingFont, setHeadingFont] = useState("geist");
+  const [bodyFont, setBodyFont] = useState("geist");
+  const [radius, setRadius] = useState("0.625rem");
+  const [compareMode, setCompareMode] = useState(false);
+  const [compareTheme, setCompareTheme] = useState<ThemeKey>("tactical-neon");
+
+  // When entering compare mode, default right panel to next theme in list
+  function handleToggleCompare() {
+    if (!compareMode) {
+      const currentIdx = themeKeys.indexOf(activeTheme);
+      const nextIdx = (currentIdx + 1) % themeKeys.length;
+      setCompareTheme(themeKeys[nextIdx]);
+    }
+    setCompareMode(!compareMode);
+  }
+
+  const vars = buildVars(activeTheme, headingFont, bodyFont, radius);
+  const compareVars = buildVars(compareTheme, headingFont, bodyFont, radius);
 
   return (
     <div
@@ -129,23 +182,39 @@ export default function App() {
           [ THEME_PREVIEW ]
         </span>
 
-        {/* Theme selector */}
-        <div className="flex gap-1">
-          {(Object.keys(themes) as ThemeKey[]).map((key) => (
-            <button
-              key={key}
-              onClick={() => setActiveTheme(key)}
-              className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer"
-              style={{
-                borderRadius: "var(--radius)",
-                backgroundColor: activeTheme === key ? "var(--primary)" : "var(--muted)",
-                color: activeTheme === key ? "var(--primary-foreground)" : "var(--foreground-muted)",
-              }}
-            >
-              {themes[key].label}
-            </button>
-          ))}
-        </div>
+        {/* Theme selector — hidden in compare mode (per-panel selectors replace it) */}
+        {!compareMode && (
+          <div className="flex gap-1">
+            {themeKeys.map((key) => (
+              <button
+                key={key}
+                onClick={() => setActiveTheme(key)}
+                className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer"
+                style={{
+                  borderRadius: "var(--radius)",
+                  backgroundColor: activeTheme === key ? "var(--primary)" : "var(--muted)",
+                  color: activeTheme === key ? "var(--primary-foreground)" : "var(--foreground-muted)",
+                }}
+              >
+                {themes[key].label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Compare toggle */}
+        <button
+          onClick={handleToggleCompare}
+          className="px-3 py-1.5 text-xs font-medium transition-all cursor-pointer border"
+          style={{
+            borderRadius: "var(--radius)",
+            borderColor: compareMode ? "var(--primary)" : "var(--border)",
+            backgroundColor: compareMode ? "var(--accent-muted)" : "transparent",
+            color: compareMode ? "var(--primary)" : "var(--foreground-muted)",
+          }}
+        >
+          {compareMode ? "Exit Compare" : "Compare"}
+        </button>
 
         {/* Font selectors */}
         <div className="flex items-center gap-2">
@@ -208,15 +277,67 @@ export default function App() {
       </div>
 
       {/* // MAIN_CONTENT */}
-      <ThemePanel
-        themeKey={activeTheme}
-        themeLabel={theme.label}
-        themeDescription={theme.description}
-        headingFont={headingFont}
-        bodyFont={bodyFont}
-        radius={radius}
-        vars={vars}
-      />
+      {compareMode ? (
+        <div className="flex flex-col lg:flex-row min-h-[calc(100vh-56px)]">
+          {/* Left panel */}
+          <div
+            className="relative flex-1 min-w-0 overflow-y-auto"
+            style={{ maxHeight: "calc(100vh - 56px)" }}
+          >
+            <PanelThemeSelector value={activeTheme} onChange={setActiveTheme} vars={vars} />
+            <div style={{ ...vars, backgroundColor: vars["--bg"], color: vars["--foreground"] }}>
+              <ThemePanel
+                themeKey={activeTheme}
+                themeLabel={themes[activeTheme].label}
+                themeDescription={themes[activeTheme].description}
+                headingFont={headingFont}
+                bodyFont={bodyFont}
+                radius={radius}
+                vars={vars}
+              />
+            </div>
+          </div>
+
+          {/* Vertical divider (desktop) / horizontal divider (mobile) */}
+          <div
+            className="hidden lg:block w-px shrink-0"
+            style={{ backgroundColor: "var(--border)" }}
+          />
+          <div
+            className="lg:hidden h-px w-full shrink-0"
+            style={{ backgroundColor: "var(--border)" }}
+          />
+
+          {/* Right panel */}
+          <div
+            className="relative flex-1 min-w-0 overflow-y-auto"
+            style={{ maxHeight: "calc(100vh - 56px)" }}
+          >
+            <PanelThemeSelector value={compareTheme} onChange={setCompareTheme} vars={compareVars} />
+            <div style={{ ...compareVars, backgroundColor: compareVars["--bg"], color: compareVars["--foreground"] }}>
+              <ThemePanel
+                themeKey={compareTheme}
+                themeLabel={themes[compareTheme].label}
+                themeDescription={themes[compareTheme].description}
+                headingFont={headingFont}
+                bodyFont={bodyFont}
+                radius={radius}
+                vars={compareVars}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <ThemePanel
+          themeKey={activeTheme}
+          themeLabel={themes[activeTheme].label}
+          themeDescription={themes[activeTheme].description}
+          headingFont={headingFont}
+          bodyFont={bodyFont}
+          radius={radius}
+          vars={vars}
+        />
+      )}
     </div>
   );
 }

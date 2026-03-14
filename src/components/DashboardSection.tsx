@@ -75,7 +75,7 @@ export function DashboardSection() {
       {/* ── Stats Row ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {stats.map((s) => (
-          <Card key={s.label} className="p-4">
+          <Card key={s.label} className="p-4 gap-0">
             <CardContent className="p-0">
               <div className="flex items-center justify-between mb-2">
                 <span
@@ -127,7 +127,7 @@ export function DashboardSection() {
       </div>
 
       {/* ── Agent Status Table ── */}
-      <Card className="mb-6 overflow-hidden">
+      <Card className="mb-6 gap-0 py-0 overflow-hidden">
         <CardContent className="p-0">
           <div
             className="px-4 py-3 border-b"
@@ -160,16 +160,7 @@ export function DashboardSection() {
               {agents.map((agent, i) => (
                 <TableRow
                   key={agent.name}
-                  className="transition-colors"
-                  style={{
-                    backgroundColor: i % 2 === 0 ? "var(--bg-card)" : "var(--bg-secondary)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--accent-muted)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = i % 2 === 0 ? "var(--bg-card)" : "var(--bg-secondary)"
-                  }}
+                  className={`transition-colors hover:bg-accent/10 ${i % 2 === 0 ? "bg-card" : "bg-bg-secondary"}`}
                 >
                   <TableCell className="px-4 py-3 font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
                     {agent.name}
@@ -209,7 +200,7 @@ export function DashboardSection() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
         {/* ── Dispatch Form ── */}
-        <Card className="lg:col-span-3">
+        <Card className="lg:col-span-3 gap-0 py-0">
           <CardContent className="p-0">
             <div
               className="px-4 py-3 border-b"
@@ -253,7 +244,7 @@ export function DashboardSection() {
                   PRIORITY
                 </label>
                 <select
-                  className="w-full px-3 py-2 text-sm border outline-none"
+                  className="w-full h-10 px-3 py-2 text-sm border outline-none"
                   defaultValue=""
                   style={{
                     backgroundColor: "var(--bg-secondary)",
@@ -321,7 +312,7 @@ export function DashboardSection() {
         </Card>
 
         {/* ── Activity Feed ── */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 gap-0 py-0">
           <CardContent className="p-0">
             <div
               className="px-4 py-3 border-b"
@@ -334,12 +325,11 @@ export function DashboardSection() {
                 // ACTIVITY_LOG
               </span>
             </div>
-            <div className="divide-y" style={{ borderColor: "var(--border)" }}>
+            <div className="divide-y divide-border">
               {activityLog.map((entry, i) => (
                 <div
                   key={i}
                   className="px-4 py-3 flex flex-col gap-1"
-                  style={{ borderColor: "var(--border)" }}
                 >
                   <div className="flex items-center gap-2">
                     <span

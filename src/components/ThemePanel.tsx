@@ -94,8 +94,10 @@ export function ThemePanel({
             className="px-4 sm:px-6 py-6 text-center"
             style={{
               borderColor: "var(--border)",
-              borderLeftWidth: i > 0 ? "1px" : 0,
+              borderLeftWidth: i % 2 !== 0 ? "1px" : 0,
               borderLeftStyle: "solid",
+              borderTopWidth: i >= 2 ? "1px" : 0,
+              borderTopStyle: "solid",
             }}
           >
             <div
@@ -123,7 +125,7 @@ export function ThemePanel({
           // HOW_IT_WORKS
         </p>
         <h2
-          className="mb-12 text-3xl font-bold"
+          className="mb-10 text-3xl font-bold"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Three steps to orchestrated AI
@@ -149,8 +151,8 @@ export function ThemePanel({
               tags: ["QA", "METRICS"],
             },
           ].map((item) => (
-            <Card key={item.step} className="p-6 hover:border-opacity-60">
-              <CardContent className="p-0">
+            <Card key={item.step} className="p-6 gap-0 hover:ring-foreground/20">
+              <CardContent className="p-0 flex flex-col flex-1">
                 <div
                   className="mb-3 inline-block rounded-full px-3 py-1 font-mono text-xs"
                   style={{
@@ -172,7 +174,7 @@ export function ThemePanel({
                 >
                   {item.desc}
                 </p>
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-auto">
                   {item.tags.map((tag) => (
                     <Badge key={tag}>[{tag}]</Badge>
                   ))}
@@ -192,7 +194,7 @@ export function ThemePanel({
           // AGENT_TEAM
         </p>
         <h2
-          className="mb-12 text-3xl font-bold"
+          className="mb-10 text-3xl font-bold"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           Meet your AI engineering team
@@ -204,7 +206,7 @@ export function ThemePanel({
             { name: "Grace", role: "ARCHITECT", color: "#C3FF49", status: "ACTIVE" },
             { name: "Atlas", role: "QA_ENGINEER", color: "#FBBF24", status: "IDLE" },
           ].map((agent) => (
-            <Card key={agent.name} className="p-4">
+            <Card key={agent.name} className="p-4 gap-0">
               <CardContent className="p-0">
                 <div
                   className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold"
@@ -355,7 +357,7 @@ export function ThemePanel({
           ].map((c) => (
             <div key={c.name} className="text-center">
               <div
-                className="mb-2 h-16 w-full border"
+                className="mb-2 aspect-square w-full border"
                 style={{
                   backgroundColor: `var(${c.var})`,
                   borderColor: "var(--border)",

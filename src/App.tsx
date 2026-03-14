@@ -180,7 +180,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen transition-colors duration-300"
+      className="dark min-h-screen transition-colors duration-300"
       style={{
         ...vars,
         backgroundColor: "var(--bg)",
@@ -240,7 +240,7 @@ export default function App() {
           <select
             value={headingFont}
             onChange={(e) => setHeadingFont(e.target.value)}
-            className="rounded border px-2 py-1 text-xs"
+            className="rounded border px-2 py-1 text-xs min-w-[100px]"
             style={{
               backgroundColor: "var(--muted)",
               borderColor: "var(--border)",
@@ -258,7 +258,7 @@ export default function App() {
           <select
             value={bodyFont}
             onChange={(e) => setBodyFont(e.target.value)}
-            className="rounded border px-2 py-1 text-xs"
+            className="rounded border px-2 py-1 text-xs min-w-[100px]"
             style={{
               backgroundColor: "var(--muted)",
               borderColor: "var(--border)",
@@ -299,8 +299,7 @@ export default function App() {
         <div className="flex flex-col lg:flex-row min-h-[calc(100vh-56px)]">
           {/* Left panel */}
           <div
-            className="relative flex-1 min-w-0 overflow-y-auto"
-            style={{ maxHeight: "calc(100vh - 56px)" }}
+            className="relative flex-1 min-w-0 lg:overflow-y-auto lg:max-h-[calc(100vh-56px)]"
           >
             <PanelThemeSelector value={activeTheme} onChange={setActiveTheme} vars={vars} />
             <div style={{ ...vars, backgroundColor: vars["--bg"], color: vars["--foreground"] }}>
@@ -320,17 +319,16 @@ export default function App() {
           {/* Vertical divider (desktop) / horizontal divider (mobile) */}
           <div
             className="hidden lg:block w-px shrink-0"
-            style={{ backgroundColor: "var(--border)" }}
+            style={{ backgroundColor: "#333333" }}
           />
           <div
             className="lg:hidden h-px w-full shrink-0"
-            style={{ backgroundColor: "var(--border)" }}
+            style={{ backgroundColor: "#333333" }}
           />
 
           {/* Right panel */}
           <div
-            className="relative flex-1 min-w-0 overflow-y-auto"
-            style={{ maxHeight: "calc(100vh - 56px)" }}
+            className="relative flex-1 min-w-0 lg:overflow-y-auto lg:max-h-[calc(100vh-56px)]"
           >
             <PanelThemeSelector value={compareTheme} onChange={setCompareTheme} vars={compareVars} />
             <div style={{ ...compareVars, backgroundColor: compareVars["--bg"], color: compareVars["--foreground"] }}>

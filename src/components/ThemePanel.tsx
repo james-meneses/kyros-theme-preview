@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { DashboardSection } from "@/components/DashboardSection"
+import { TypographySection } from "@/components/TypographySection"
 
 interface ThemePanelProps {
   themeKey: string
@@ -289,6 +291,12 @@ export function ThemePanel({
           </pre>
         </div>
       </section>
+
+      {/* // DASHBOARD_PREVIEW */}
+      <DashboardSection />
+
+      {/* // TYPOGRAPHY_SPECIMEN */}
+      <TypographySection vars={vars} />
 
       {/* // CALL_TO_ACTION */}
       <section className="mb-16 text-center">

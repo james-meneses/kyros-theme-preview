@@ -139,7 +139,7 @@ export function DashboardSection() {
             </span>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm" style={{ fontFamily: "var(--font-body)" }}>
+            <table className="w-full min-w-[600px] text-sm" style={{ fontFamily: "var(--font-body)" }}>
               <thead>
                 <tr
                   style={{ backgroundColor: "var(--bg-secondary)", borderBottom: "1px solid var(--border)" }}
@@ -223,7 +223,7 @@ export function DashboardSection() {
                 // DISPATCH_TASK
               </span>
             </div>
-            <div className="p-5 space-y-4">
+            <div className="p-4 space-y-4">
               {/* Task description */}
               <div>
                 <label

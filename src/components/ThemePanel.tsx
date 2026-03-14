@@ -11,16 +11,18 @@ interface ThemePanelProps {
   bodyFont: string
   radius: string
   vars: Record<string, string>
+  compact?: boolean
 }
 
 export function ThemePanel({
   themeLabel,
   themeDescription,
   vars,
+  compact = false,
 }: ThemePanelProps) {
   return (
     <div
-      className="mx-auto max-w-6xl px-6 py-16"
+      className={`mx-auto max-w-6xl ${compact ? "px-4" : "px-6"} py-16`}
       style={Object.fromEntries(Object.entries(vars))}
     >
       {/* // HERO */}
@@ -74,7 +76,7 @@ export function ThemePanel({
 
       {/* // METRICS_OVERVIEW */}
       <section
-        className="mb-24 grid grid-cols-2 md:grid-cols-4 divide-x border"
+        className="mb-24 grid grid-cols-2 md:grid-cols-4 border"
         style={{
           borderColor: "var(--border)",
           borderRadius: "var(--radius)",
@@ -86,11 +88,15 @@ export function ThemePanel({
           { value: "150K+", label: "LINES_SHIPPED" },
           { value: "186", label: "TEST_FILES" },
           { value: "26", label: "EVENT_TYPES" },
-        ].map((stat) => (
+        ].map((stat, i) => (
           <div
             key={stat.label}
             className="px-4 sm:px-6 py-6 text-center"
-            style={{ borderColor: "var(--border)" }}
+            style={{
+              borderColor: "var(--border)",
+              borderLeftWidth: i > 0 ? "1px" : 0,
+              borderLeftStyle: "solid",
+            }}
           >
             <div
               className="text-2xl sm:text-3xl font-bold"
@@ -198,7 +204,7 @@ export function ThemePanel({
             { name: "Grace", role: "ARCHITECT", color: "#C3FF49", status: "ACTIVE" },
             { name: "Atlas", role: "QA_ENGINEER", color: "#FBBF24", status: "IDLE" },
           ].map((agent) => (
-            <Card key={agent.name} className="p-5">
+            <Card key={agent.name} className="p-4">
               <CardContent className="p-0">
                 <div
                   className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold"
@@ -371,7 +377,7 @@ export function ThemePanel({
       </section>
 
       {/* // THEME_INFO */}
-      <div className="mt-6 text-center text-sm" style={{ color: "var(--foreground-muted)" }}>
+      <div className="mt-6 mb-6 text-center text-sm" style={{ color: "var(--foreground-muted)" }}>
         <strong>{themeLabel}</strong> — {themeDescription}
       </div>
     </div>

@@ -67,7 +67,7 @@ const headings = [
 
 export function TypographySection({ vars }: TypographySectionProps) {
   return (
-    <section className="mt-24">
+    <section className="mb-24">
       {/* // TYPOGRAPHY_SPECIMEN */}
       <p
         className="mb-2 text-xs font-mono uppercase tracking-[0.2em]"
@@ -98,7 +98,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
           // HEADING_SCALE
         </p>
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {headings.map(({ level, size, text, css }) => (
             <div key={level} className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6">
               <div className="shrink-0 sm:w-48">
@@ -430,7 +430,7 @@ export function TypographySection({ vars }: TypographySectionProps) {
           ] as const).map(({ label, family }) => (
             <div
               key={label}
-              className="border p-5"
+              className="border p-6"
               style={{
                 borderColor: "var(--border)",
                 borderRadius: "var(--radius)",

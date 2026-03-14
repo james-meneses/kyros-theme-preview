@@ -116,7 +116,8 @@ function PanelThemeSelector({
 }) {
   return (
     <div
-      className="absolute top-3 right-3 z-10"
+      className="absolute top-3 right-3 z-10 rounded-md px-1 py-1"
+      style={{ backgroundColor: vars["--bg-secondary"] + "E6" }}
     >
       <select
         value={value}
@@ -172,7 +173,7 @@ export default function App() {
     >
       {/* // CONTROLS */}
       <div
-        className="sticky top-0 z-50 flex flex-wrap items-center gap-4 border-b px-6 py-3"
+        className="sticky top-0 z-50 flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-6 py-3"
         style={{
           backgroundColor: "var(--bg-secondary)",
           borderColor: "var(--border)",
@@ -294,6 +295,7 @@ export default function App() {
                 bodyFont={bodyFont}
                 radius={radius}
                 vars={vars}
+                compact
               />
             </div>
           </div>
@@ -323,6 +325,7 @@ export default function App() {
                 bodyFont={bodyFont}
                 radius={radius}
                 vars={compareVars}
+                compact
               />
             </div>
           </div>

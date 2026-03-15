@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { TerminalDemo } from "@/components/TerminalDemo";
+import { Marquee } from "@/components/Marquee";
 import { AgentAvatar } from "@/components/AgentAvatar";
 import {
   transitions, heroStagger, heroChild,
@@ -335,13 +336,9 @@ export function HeroPage() {
           </SectionHeader>
         </motion.div>
 
-        {/* Stack badges */}
-        <motion.div className="flex flex-wrap gap-2 mb-8" {...sectionChild}>
-          {stackBadges.map((badge) => (
-            <Badge key={badge} variant="outline" className="text-xs px-3 py-1">
-              {badge}
-            </Badge>
-          ))}
+        {/* Stack badges — scrolling marquee */}
+        <motion.div className="mb-8" {...sectionChild}>
+          <Marquee items={stackBadges} duration={25} />
         </motion.div>
 
         {/* Architecture cards */}

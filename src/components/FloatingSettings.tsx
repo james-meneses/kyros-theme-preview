@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { transitions } from "@/lib/motion";
-import { Settings, X, ChevronDown } from "lucide-react";
+import { Settings, X, ChevronDown, Palette } from "lucide-react";
 
 type NavVariant = "sidebar" | "topbar" | "minimal";
 
@@ -9,6 +9,124 @@ interface FloatingSettingsProps {
   navVariant: NavVariant;
   onNavVariantChange: (v: NavVariant) => void;
 }
+
+// ── Theme Presets ─────────────────────────────────────────
+// Each preset is a complete CSS variable set that can be applied atomically.
+// The presets follow the agent consensus from Sprint #2 design discussions.
+
+interface ThemePreset {
+  id: string;
+  label: string;
+  description: string;
+  vars: Record<string, string>;
+  /** The primary accent hex — used for swatch display */
+  swatch: string;
+}
+
+const themePresets: ThemePreset[] = [
+  {
+    id: "v0-tactical-neon",
+    label: "v0: Tactical Neon",
+    description: "Original neon lime — aggressive, distinctive",
+    swatch: "#CCFF00",
+    vars: {
+      "--bg": "#050505",
+      "--bg-secondary": "#0D0D0D",
+      "--bg-card": "#151515",
+      "--border": "#252525",
+      "--border-accent": "#CCFF0033",
+      "--foreground": "#FAFAFA",
+      "--foreground-muted": "#999999",
+      "--primary": "#CCFF00",
+      "--primary-foreground": "#050505",
+      "--secondary": "#6366F1",
+      "--accent": "#CCFF00",
+      "--accent-muted": "#CCFF0020",
+      "--muted": "#1A1A1A",
+      "--muted-foreground": "#666666",
+      "--shadow": "0 0 24px #CCFF0012",
+      // shadcn bridges
+      "--background": "#050505",
+      "--card": "#151515",
+      "--card-foreground": "#FAFAFA",
+      "--secondary-foreground": "#FAFAFA",
+      "--accent-foreground": "#FAFAFA",
+      "--input": "#252525",
+      "--ring": "#CCFF00",
+      "--destructive": "#EF4444",
+      "--popover": "#151515",
+      "--popover-foreground": "#FAFAFA",
+    },
+  },
+  {
+    id: "v1-cosmic-emerald",
+    label: "v1: Cosmic Emerald",
+    description: "Agent consensus — deep teal + emerald accent",
+    swatch: "#0D9488",
+    vars: {
+      "--bg": "#0A0A0A",
+      "--bg-secondary": "#111111",
+      "--bg-card": "#151515",
+      "--border": "#262626",
+      "--border-accent": "#0D948833",
+      "--foreground": "#FAFAFA",
+      "--foreground-muted": "#A1A1AA",
+      "--primary": "#0D9488",
+      "--primary-foreground": "#FAFAFA",
+      "--secondary": "#6366F1",
+      "--accent": "#10B981",
+      "--accent-muted": "#10B98120",
+      "--muted": "#1A1A1A",
+      "--muted-foreground": "#71717A",
+      "--shadow": "0 0 24px #0D948812",
+      // shadcn bridges
+      "--background": "#0A0A0A",
+      "--card": "#151515",
+      "--card-foreground": "#FAFAFA",
+      "--secondary-foreground": "#FAFAFA",
+      "--accent-foreground": "#FAFAFA",
+      "--input": "#262626",
+      "--ring": "#10B981",
+      "--destructive": "#EF4444",
+      "--popover": "#151515",
+      "--popover-foreground": "#FAFAFA",
+    },
+  },
+  {
+    id: "v2-emerald-bright",
+    label: "v2: Emerald Bright",
+    description: "Warmer emerald — Supabase-inspired, premium",
+    swatch: "#34D399",
+    vars: {
+      "--bg": "#0A0A0A",
+      "--bg-secondary": "#111111",
+      "--bg-card": "#161616",
+      "--border": "#272727",
+      "--border-accent": "#34D39933",
+      "--foreground": "#FAFAFA",
+      "--foreground-muted": "#A1A1AA",
+      "--primary": "#34D399",
+      "--primary-foreground": "#052E16",
+      "--secondary": "#6366F1",
+      "--accent": "#34D399",
+      "--accent-muted": "#34D39920",
+      "--muted": "#1C1C1C",
+      "--muted-foreground": "#71717A",
+      "--shadow": "0 0 24px #34D39912",
+      // shadcn bridges
+      "--background": "#0A0A0A",
+      "--card": "#161616",
+      "--card-foreground": "#FAFAFA",
+      "--secondary-foreground": "#FAFAFA",
+      "--accent-foreground": "#FAFAFA",
+      "--input": "#272727",
+      "--ring": "#34D399",
+      "--destructive": "#EF4444",
+      "--popover": "#161616",
+      "--popover-foreground": "#FAFAFA",
+    },
+  },
+];
 
 const headingFonts = [
   { label: "Space Grotesk", value: "'Space Grotesk', system-ui, sans-serif" },
@@ -28,23 +146,14 @@ const bodyFonts = [
   { label: "IBM Plex Sans", value: "'IBM Plex Sans', system-ui, sans-serif" },
 ];
 
-const accentPresets = [
-  { label: "Neon Lime", value: "#CCFF00" },
-  { label: "Electric Blue", value: "#3B82F6" },
-  { label: "Violet", value: "#8B5CF6" },
-  { label: "Cyan", value: "#22D3EE" },
-  { label: "Rose", value: "#F43F5E" },
-  { label: "Amber", value: "#F59E0B" },
-];
-
-function hexToMuted(hex: string, opacity: string): string {
-  return hex + opacity;
+function setRootVar(name: string, value: string) {
+  document.body.style.setProperty(name, value);
 }
 
-function setRootVar(name: string, value: string) {
-  // Target body — matches where App.tsx sets initial theme vars.
-  // CSS custom property declarations on body override the index.css body{} fallbacks.
-  document.body.style.setProperty(name, value);
+function applyPreset(preset: ThemePreset) {
+  for (const [key, value] of Object.entries(preset.vars)) {
+    setRootVar(key, value);
+  }
 }
 
 function SelectControl({
@@ -87,9 +196,9 @@ function SelectControl({
 
 export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSettingsProps) {
   const [open, setOpen] = useState(false);
+  const [activePreset, setActivePreset] = useState(themePresets[0].id);
   const [headingFont, setHeadingFont] = useState(headingFonts[0].value);
   const [bodyFont, setBodyFont] = useState(bodyFonts[0].value);
-  const [accent, setAccent] = useState("#CCFF00");
   const [radius, setRadius] = useState(8);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -104,6 +213,13 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
 
+  function switchPreset(presetId: string) {
+    const preset = themePresets.find((p) => p.id === presetId);
+    if (!preset) return;
+    setActivePreset(presetId);
+    applyPreset(preset);
+  }
+
   function updateHeadingFont(value: string) {
     setHeadingFont(value);
     setRootVar("--font-heading", value);
@@ -112,16 +228,6 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
   function updateBodyFont(value: string) {
     setBodyFont(value);
     setRootVar("--font-body", value);
-  }
-
-  function updateAccent(value: string) {
-    setAccent(value);
-    setRootVar("--primary", value);
-    setRootVar("--accent", value);
-    setRootVar("--ring", value);
-    setRootVar("--accent-muted", hexToMuted(value, "20"));
-    setRootVar("--border-accent", hexToMuted(value, "33"));
-    setRootVar("--shadow", `0 0 24px ${hexToMuted(value, "12")}`);
   }
 
   function updateRadius(value: number) {
@@ -138,7 +244,7 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={transitions.spring}
-            className="absolute bottom-16 right-0 w-72 rounded-xl border p-4 space-y-4"
+            className="absolute bottom-16 right-0 w-80 rounded-xl border p-4 space-y-4 max-h-[80vh] overflow-y-auto"
             style={{
               backgroundColor: "var(--bg-card)",
               borderColor: "var(--border)",
@@ -158,6 +264,49 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
                 <X className="h-3.5 w-3.5" />
               </button>
             </div>
+
+            {/* ── Theme Presets ── */}
+            <div>
+              <div className="flex items-center gap-1.5 mb-2">
+                <Palette className="h-3 w-3" style={{ color: "var(--foreground-muted)" }} />
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Theme Preset
+                </label>
+              </div>
+              <div className="space-y-1.5">
+                {themePresets.map((preset) => (
+                  <button
+                    key={preset.id}
+                    onClick={() => switchPreset(preset.id)}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all cursor-pointer"
+                    style={{
+                      backgroundColor: activePreset === preset.id ? "var(--accent-muted)" : "transparent",
+                      borderRadius: "var(--radius)",
+                    }}
+                  >
+                    <div
+                      className="h-6 w-6 rounded-full shrink-0 border-2 transition-all"
+                      style={{
+                        backgroundColor: preset.swatch,
+                        borderColor: activePreset === preset.id ? "var(--foreground)" : "transparent",
+                        boxShadow: activePreset === preset.id ? `0 0 10px ${preset.swatch}60` : undefined,
+                      }}
+                    />
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-semibold truncate" style={{ color: activePreset === preset.id ? "var(--foreground)" : "var(--foreground-muted)" }}>
+                        {preset.label}
+                      </div>
+                      <div className="text-[9px] truncate" style={{ color: "var(--muted-foreground)" }}>
+                        {preset.description}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Separator */}
+            <div style={{ borderTop: "1px solid var(--border)" }} />
 
             {/* Nav Variant */}
             <div>
@@ -197,28 +346,6 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
               value={bodyFont}
               onChange={updateBodyFont}
             />
-
-            {/* Accent Color */}
-            <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider mb-1.5" style={{ color: "var(--foreground-muted)" }}>
-                Accent Color
-              </label>
-              <div className="flex gap-1.5">
-                {accentPresets.map((p) => (
-                  <button
-                    key={p.value}
-                    onClick={() => updateAccent(p.value)}
-                    className="h-7 w-7 rounded-full border-2 transition-all cursor-pointer hover:scale-110"
-                    style={{
-                      backgroundColor: p.value,
-                      borderColor: accent === p.value ? "var(--foreground)" : "transparent",
-                      boxShadow: accent === p.value ? `0 0 12px ${p.value}60` : undefined,
-                    }}
-                    title={p.label}
-                  />
-                ))}
-              </div>
-            </div>
 
             {/* Radius */}
             <div>

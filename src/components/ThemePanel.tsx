@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { DashboardSection } from "@/components/DashboardSection"
 import { TypographySection } from "@/components/TypographySection"
+import { AgentAvatar } from "@/components/AgentAvatar"
 
 interface ThemePanelProps {
   themeKey: string
@@ -208,12 +209,7 @@ export function ThemePanel({
           ].map((agent) => (
             <Card key={agent.name}>
               <CardContent>
-                <div
-                  className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold"
-                  style={{ backgroundColor: agent.color + "20", color: agent.color }}
-                >
-                  {agent.name[0]}
-                </div>
+                <AgentAvatar name={agent.name} color={agent.color} size={40} className="mb-3" />
                 <div
                   className="font-semibold"
                   style={{ fontFamily: "var(--font-heading)" }}

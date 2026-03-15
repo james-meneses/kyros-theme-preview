@@ -10,12 +10,12 @@
 // ── Hero Section ──────────────────────────────────────────
 
 export const hero = {
-  badge: "Now in Design Partner Preview",
+  badge: "Design Partner Preview",
   headline: "Your AI engineering team.",
   headlineAccent: "Not another copilot.",
-  headlineAlt: "Ship code while you sleep.",
+  headlineAlt: "21 agents. One operator. Production code.",
   subheadline:
-    "Kyros orchestrates 21 specialized AI agents across 5 teams — architect, backend, frontend, security, QA — to build production-grade software with governance, memory, and multi-agent review. One operator. A full engineering org.",
+    "21 agents across 5 teams — architect, backend, frontend, security, QA — ship production software with governance, memory, and multi-agent review.",
   primaryCta: "Get Early Access",
   secondaryCta: "Watch Demo",
 } as const;
@@ -23,32 +23,32 @@ export const hero = {
 // ── Stats ─────────────────────────────────────────────────
 
 export const stats = [
-  { value: 21, suffix: "", label: "AI Agents", sublabel: "Across 5 specialized teams" },
-  { value: 150, suffix: "K+", label: "Lines Shipped", sublabel: "Typed TypeScript across monorepo" },
-  { value: 490, suffix: "+", label: "Git Commits", sublabel: "Traceable, attributed, governed" },
-  { value: 15, suffix: "", label: "Days to Build", sublabel: "From zero to production platform" },
+  { value: 21, suffix: "", label: "AI Agents", sublabel: "5 teams, governed workflow" },
+  { value: 150, suffix: "K+", label: "Lines Shipped", sublabel: "Production TypeScript" },
+  { value: 490, suffix: "+", label: "Git Commits", sublabel: "Attributed and reviewed" },
+  { value: 15, suffix: "", label: "Days to Build", sublabel: "Zero to production" },
 ] as const;
 
 // ── Problem Section ───────────────────────────────────────
 
 export const problem = {
-  headline: "The gap between AI assistance and AI execution",
-  headlineAlt: "One agent writes code. A team ships software.",
+  headline: "One agent writes code. A team ships software.",
+  headlineAlt: "AI assistance is not AI execution.",
   without: {
     title: "One agent, no structure",
     points: [
-      "You prompt an AI, paste code, fix hallucinations, re-prompt, repeat",
-      "No architectural review. No test coverage strategy. No institutional memory",
+      "Prompt, paste, fix hallucinations, re-prompt, repeat",
+      "No architecture review. No test strategy. No institutional memory",
       "Code ships fast. Technical debt ships faster",
-      "Context evaporates between sessions — every conversation starts from zero",
+      "Context resets every session — every conversation starts from zero",
     ],
   },
   with: {
     title: "21 agents, governed workflow",
     points: [
-      "Zara (Architect) reviews every PR. Grace (Backend) and Atlas (Frontend) build in parallel",
-      "Echo (QA) writes tests. Sage (Security) audits. Nova (Intelligence) learns from every sprint",
-      "Three-tier memory persists context: episodic (Postgres), working (Redis), semantic (pgvector)",
+      "Architect reviews every PR. Backend and frontend build in parallel",
+      "QA writes tests. Security audits. Intelligence learns from every sprint",
+      "Three-tier memory persists context across sessions, sprints, and projects",
       "Multi-agent consensus review catches what single-agent workflows miss",
     ],
   },
@@ -61,19 +61,19 @@ export const howItWorks = [
     step: "01",
     title: "Define your team",
     description:
-      "Select agents by role — or use a preconfigured team. Assign trust levels, set governance rules, and connect your repo. Kyros maps your codebase into a knowledge graph so agents understand your architecture before writing a single line.",
+      "Select agents by role or use a preconfigured team. Set governance rules, connect your repo. Kyros maps your codebase before agents write a line.",
   },
   {
     step: "02",
     title: "Set the mission",
     description:
-      "Describe what you need built — a feature, a migration, a full module. The Orchestrator breaks it into tasks, assigns agents by expertise, and dispatches work across teams. You approve the plan or let it run autonomously.",
+      "Describe what you need — a feature, a migration, a full module. The Orchestrator breaks it into tasks, assigns agents, and dispatches. You approve or let it run.",
   },
   {
     step: "03",
     title: "Watch it ship",
     description:
-      "Agents build in parallel. Architect reviews. QA tests. Security audits. You observe progress in real-time through the dashboard — 26 typed event streams, live agent status, and full sprint telemetry. Merge when ready.",
+      "Agents build in parallel. Architect reviews. QA tests. Security audits. Track everything in real-time. Merge when ready.",
   },
 ] as const;
 
@@ -100,17 +100,17 @@ export const stackBadges = [
 export const architectureCards = [
   {
     title: "Three-tier agent memory",
-    description: "Episodic (Postgres) for task history. Working (Redis) for active context. Semantic (pgvector) for learned patterns. Agents remember what they've built.",
-    metric: "Memory",
+    description: "Task history. Active context. Learned patterns. Agents remember what they've built — across sessions, sprints, and projects.",
+    metric: "Persistent Memory",
   },
   {
-    title: "Architectural awareness",
-    description: "Apache AGE with Cypher queries maps your entire codebase — relationships, dependencies, call chains. Agents understand structure, not just syntax.",
-    metric: "Knowledge Graph",
+    title: "Codebase knowledge graph",
+    description: "Relationships, dependencies, call chains — mapped. Agents understand structure, not just syntax.",
+    metric: "Structural Intelligence",
   },
   {
     title: "Any model. Your choice.",
-    description: "Claude, GPT, Gemini, open-source models. Kyros orchestrates the team — the underlying model is a configuration choice, not a constraint.",
+    description: "Claude, GPT, Gemini, open-source. The model is a configuration choice, not a constraint.",
     metric: "Model Agnostic",
   },
 ] as const;
@@ -122,22 +122,22 @@ export const personas = [
     title: "Solo Founder",
     headline: "You're technical. You're one person. You need a team.",
     description:
-      "Stop context-switching between frontend, backend, infra, and testing. Dispatch a sprint to Kyros, review the output, merge, and move on. One founder with 21 agents ships like a team of 5.",
-    proof: "Kyros itself was built by one operator and 21 agents in ~15 working days. 490+ commits. 150K+ lines. Production-grade.",
+      "Stop context-switching between frontend, backend, infra, and testing. Dispatch a sprint, review the output, merge. Ship like a team of five.",
+    proof: "Built by one operator and 21 agents in 15 days. 490+ commits. 150K+ lines. Production-grade.",
   },
   {
     title: "Tech Lead",
     headline: "Your team builds features. Kyros handles the rest.",
     description:
-      "Delegate migrations, refactors, test coverage, and documentation to governed AI agents while your human engineers focus on the work that requires judgment.",
-    proof: "Multi-agent consensus review catches issues that single-agent code generation misses. Governance is built in, not bolted on.",
+      "Delegate migrations, refactors, test coverage, and documentation to governed agents. Your engineers focus on work that requires judgment.",
+    proof: "Multi-agent consensus review catches issues single-agent generation misses. Governance is built in, not bolted on.",
   },
   {
     title: "Agency Owner",
-    headline: "Multiply your delivery capacity without multiplying headcount.",
+    headline: "More projects. Same headcount.",
     description:
-      "Take on more client projects without hiring. Each Kyros instance runs independently — isolated repos, isolated agents, isolated context. Your team provides creative direction. Kyros provides engineering throughput.",
-    proof: "Design partner program: free first project. Validate the model on a real client engagement before committing.",
+      "Each instance runs independently — isolated repos, agents, and context. Your team provides creative direction. Kyros provides engineering throughput.",
+    proof: "Isolated per-client instances. No cross-contamination. Full code ownership and IP transfer on delivery.",
   },
 ] as const;
 
@@ -210,16 +210,16 @@ export const competitors = [
 ] as const;
 
 export const kyrosAdvantages = [
-  { title: "Multi-Agent Orchestration", description: "18 specialized agents across 5 teams. Not one agent — a team with architects, developers, security, and QA." },
-  { title: "Consensus-Based Review", description: "Multiple specialized agents independently review every deliverable. Security checks for vulnerabilities. Architecture checks consistency." },
-  { title: "Self-Bootstrapping Proof", description: "Kyros built itself — 150K+ lines in ~15 days. Devin didn't build Devin. Cursor didn't build Cursor." },
-  { title: "Knowledge Graph Memory", description: "Apache AGE maps your entire codebase. Three-tier memory persists context across the entire engagement." },
+  { title: "Multi-Agent Orchestration", description: "21 agents across 5 teams — architect, developers, security, QA. Not one agent. A team." },
+  { title: "Consensus-Based Review", description: "Multiple agents independently review every deliverable. Security checks vulnerabilities. Architecture checks consistency." },
+  { title: "Self-Built Proof", description: "150K+ lines in 15 days. Kyros built itself. The product is its own case study." },
+  { title: "Knowledge Graph Memory", description: "Codebase mapped in a knowledge graph. Three-tier memory persists context across sessions, sprints, and projects." },
 ] as const;
 
 // ── Founder Quote ─────────────────────────────────────────
 
 export const founderQuote = {
-  text: "I built Kyros because I needed a team I couldn't afford and couldn't find. Now I have 21 engineers who never burn out, never forget context, and never skip the architecture review. The question isn't whether AI can write code — it's whether AI can ship software. Kyros is my answer.",
+  text: "I needed a team I couldn't afford and couldn't find. So I built one. 21 agents that never burn out, never lose context, and never skip the architecture review. The question isn't whether AI can write code — it's whether AI can ship software.",
   author: "James Meneses",
   role: "Founder, Kyros",
 } as const;
@@ -229,8 +229,8 @@ export const founderQuote = {
 export const finalCta = {
   headline: "Stop hiring. Start orchestrating.",
   headlineAlt: "Your AI engineering team is ready.",
-  subheadline: "Join the design partner program. Build your first project with 21 AI agents — architect, backend, frontend, security, QA — governed, coordinated, and shipping production code.",
+  subheadline: "Join the design partner program. Ship your first project with 21 governed agents.",
   inputPlaceholder: "your@email.com",
   buttonText: "Get Early Access",
-  finePrint: "Free for your first project. No credit card required.",
+  finePrint: "First project free. No credit card required.",
 } as const;

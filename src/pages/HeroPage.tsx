@@ -3,6 +3,8 @@ import NumberFlow from "@number-flow/react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { TerminalDemo } from "@/components/TerminalDemo";
+import { AgentAvatar } from "@/components/AgentAvatar";
 import {
   transitions, heroStagger, heroChild,
   sectionStagger, sectionChild, scrollReveal,
@@ -58,12 +60,19 @@ const personaIcons = [User, Briefcase, Building2];
 
 export function HeroPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12 md:py-20">
+    <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       {/* ═══ Section 1: Hero ═══ */}
       <motion.section
-        className="mb-32 text-center"
+        className="relative mb-40 text-center"
         {...heroStagger}
       >
+        {/* Radial glow behind hero — draws eye to primary message */}
+        <div
+          className="pointer-events-none absolute inset-0 -top-32"
+          style={{
+            background: "radial-gradient(ellipse 60% 40% at 50% 20%, rgba(204,255,0,0.06) 0%, transparent 70%)",
+          }}
+        />
         <motion.div {...heroChild}>
           <Badge className="mb-6 text-xs px-4 py-1.5">
             {hero.badge}
@@ -159,7 +168,7 @@ export function HeroPage() {
       </motion.section>
 
       {/* ═══ Section 2: Problem — Without / With ═══ */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-40" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="THE_PROBLEM">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -216,7 +225,7 @@ export function HeroPage() {
       </motion.section>
 
       {/* ═══ Section 3: How It Works ═══ */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-40" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="HOW_IT_WORKS">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -257,8 +266,23 @@ export function HeroPage() {
         </div>
       </motion.section>
 
+      {/* ═══ Section 3b: Terminal Demo — makes the workflow tangible ═══ */}
+      <section className="mb-40">
+        <div className="mb-8 text-center">
+          <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
+            // SEE_IT_IN_ACTION
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+            One command. A full engineering sprint.
+          </h2>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <TerminalDemo />
+        </div>
+      </section>
+
       {/* ═══ Section 4: Agent Team ═══ */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-40" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="AGENT_FLEET">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -276,12 +300,7 @@ export function HeroPage() {
               <Card className="group hover:ring-1 hover:ring-primary/20 transition-all">
                 <CardContent>
                   <div className="flex items-center gap-3 mb-3">
-                    <div
-                      className="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold"
-                      style={{ backgroundColor: agent.color + "20", color: agent.color }}
-                    >
-                      {agent.name[0]}
-                    </div>
+                    <AgentAvatar name={agent.name} color={agent.color} size={40} />
                     <span
                       className="inline-block h-2 w-2 rounded-full animate-pulse-glow"
                       style={{ backgroundColor: "#22C55E", color: "#22C55E" }}
@@ -304,7 +323,7 @@ export function HeroPage() {
       </motion.section>
 
       {/* ═══ Section 5: Architecture ═══ */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-40" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="ARCHITECTURE">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>

@@ -2,116 +2,106 @@ import { motion } from "motion/react";
 import NumberFlow from "@number-flow/react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { variants, transitions } from "@/lib/motion";
-import { Zap, Users, Code, Shield, GitBranch, Bot, Activity, BarChart3 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  transitions, heroStagger, heroChild,
+  sectionStagger, sectionChild, scrollReveal,
+} from "@/lib/motion";
+import {
+  Zap, GitBranch, BarChart3, Brain, Network, Cpu,
+  ArrowRight, Check, X as XIcon, Quote, Mail,
+  User, Briefcase, Building2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+  hero, stats, problem, howItWorks, agents,
+  stackBadges, architectureCards, personas,
+  founderQuote, finalCta,
+} from "@/data/brand";
 
-/** Animated stat that rolls from 0 → target on mount using NumberFlow */
+/* ── Animated stat counter ── */
 function AnimatedStat({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [value, setValue] = useState(0);
+  const [inView, setInView] = useState(false);
   useEffect(() => {
-    // Small delay so the roll animation is visible after page render
-    const t = setTimeout(() => setValue(target), 200);
-    return () => clearTimeout(t);
-  }, [target]);
+    if (inView) {
+      const t = setTimeout(() => setValue(target), 100);
+      return () => clearTimeout(t);
+    }
+  }, [inView, target]);
   return (
-    <span className="inline-flex items-baseline">
+    <motion.span
+      className="inline-flex items-baseline"
+      onViewportEnter={() => setInView(true)}
+    >
       <NumberFlow value={value} />
       {suffix && <span>{suffix}</span>}
-    </span>
+    </motion.span>
   );
 }
 
-const stats = [
-  { value: 21, suffix: "", label: "AI_AGENTS", icon: Bot },
-  { value: 150, suffix: "K+", label: "LINES_SHIPPED", icon: Code },
-  { value: 186, suffix: "", label: "TEST_FILES", icon: Shield },
-  { value: 26, suffix: "", label: "EVENT_TYPES", icon: Activity },
-];
+/* ── Section Header helper ── */
+function SectionHeader({ tag, children }: { tag: string; children: React.ReactNode }) {
+  return (
+    <div className="mb-12">
+      <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
+        // {tag}
+      </p>
+      {children}
+    </div>
+  );
+}
 
-const howItWorks = [
-  {
-    step: "01",
-    title: "DISPATCH",
-    desc: "Describe the work. Kyros assembles the right agent team, assigns roles, and creates a plan.",
-    icon: Zap,
-    tags: ["BACKEND", "FRONTEND"],
-  },
-  {
-    step: "02",
-    title: "EXECUTE",
-    desc: "Agents self-organize into sprints. Each agent works in isolated worktrees with full tool access.",
-    icon: GitBranch,
-    tags: ["PARALLEL", "ISOLATED"],
-  },
-  {
-    step: "03",
-    title: "REVIEW",
-    desc: "Built-in review matrix ensures quality. Architect reviews every PR. Metrics track cost and velocity.",
-    icon: BarChart3,
-    tags: ["QA", "METRICS"],
-  },
-];
-
-const agents = [
-  { name: "Akira", role: "BACKEND_DEV", color: "#60A5FA", status: "ACTIVE" },
-  { name: "Zara", role: "FRONTEND_DEV", color: "#F472B6", status: "ACTIVE" },
-  { name: "Grace", role: "ARCHITECT", color: "#CCFF00", status: "REVIEWING" },
-  { name: "Atlas", role: "QA_ENGINEER", color: "#FBBF24", status: "ACTIVE" },
-  { name: "Dieter", role: "UI_DESIGNER", color: "#D946EF", status: "IDLE" },
-  { name: "Ada", role: "DEVOPS", color: "#22D3EE", status: "ACTIVE" },
-  { name: "Coco", role: "BRAND_MGR", color: "#FB923C", status: "IDLE" },
-  { name: "Frida", role: "VISUAL_ENG", color: "#A78BFA", status: "ACTIVE" },
-];
+const howItWorksIcons = [Zap, GitBranch, BarChart3];
+const archIcons = [Brain, Network, Cpu];
+const personaIcons = [User, Briefcase, Building2];
 
 export function HeroPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      {/* ── Hero ── */}
+    <div className="mx-auto max-w-6xl px-6 py-12 md:py-20">
+      {/* ═══ Section 1: Hero ═══ */}
       <motion.section
-        className="mb-24 text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={transitions.reveal}
+        className="mb-32 text-center"
+        {...heroStagger}
       >
-        <motion.p
-          className="mb-4 text-xs font-mono uppercase tracking-[0.3em]"
-          style={{ color: "var(--primary)" }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, ...transitions.default }}
-        >
-          [ THE AI-NATIVE OS FOR SOFTWARE TEAMS ]
-        </motion.p>
-        <h1
-          className="mb-6 text-4xl sm:text-5xl md:text-7xl font-bold leading-[0.95] tracking-tight"
+        <motion.div {...heroChild}>
+          <Badge className="mb-6 text-xs px-4 py-1.5">
+            {hero.badge}
+          </Badge>
+        </motion.div>
+
+        <motion.h1
+          className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
           style={{ fontFamily: "var(--font-heading)" }}
+          {...heroChild}
         >
-          Your AI Engineering
+          {hero.headline}
           <br />
-          <span style={{ color: "var(--primary)" }}>Department</span>
-        </h1>
-        <p
+          <span style={{ color: "var(--primary)" }}>{hero.headlineAccent}</span>
+        </motion.h1>
+
+        <motion.p
           className="mx-auto mb-10 max-w-2xl text-base sm:text-lg leading-relaxed"
           style={{ color: "var(--foreground-muted)" }}
+          {...heroChild}
         >
-          Dispatch work to AI agent teams that self-organize, execute, and deliver reviewed,
-          tested code — with full visibility into what every agent is doing.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
+          {hero.subheadline}
+        </motion.p>
+
+        <motion.div className="flex flex-wrap justify-center gap-4" {...heroChild}>
           <motion.button
-            className="px-8 py-3.5 text-sm font-semibold cursor-pointer"
+            className="px-8 py-3.5 text-sm font-semibold cursor-pointer inline-flex items-center gap-2"
             style={{
               backgroundColor: "var(--primary)",
               color: "var(--primary-foreground)",
               borderRadius: "var(--radius)",
               boxShadow: "0 0 30px var(--accent-muted)",
             }}
-            whileHover={{ scale: 1.03, boxShadow: "0 0 40px #CCFF0040" }}
+            whileHover={{ scale: 1.03, boxShadow: "0 0 40px var(--accent-muted)" }}
             whileTap={{ scale: 0.98 }}
             transition={transitions.micro}
           >
-            Start Building →
+            {hero.primaryCta} <ArrowRight className="h-4 w-4" />
           </motion.button>
           <motion.button
             className="border px-8 py-3.5 text-sm font-medium cursor-pointer"
@@ -125,130 +115,165 @@ export function HeroPage() {
             whileTap={{ scale: 0.98 }}
             transition={transitions.micro}
           >
-            Watch Demo
+            {hero.secondaryCta}
           </motion.button>
+        </motion.div>
+
+        {/* Stats bar */}
+        <motion.div
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 border"
+          style={{
+            borderColor: "var(--border)",
+            borderRadius: "var(--radius)",
+            backgroundColor: "var(--bg-card)",
+          }}
+          {...heroChild}
+        >
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className="px-4 sm:px-6 py-6 text-center"
+              style={{
+                borderColor: "var(--border)",
+                borderLeftWidth: i % 2 !== 0 ? "1px" : 0,
+                borderLeftStyle: "solid" as const,
+                borderTopWidth: i >= 2 ? "1px" : 0,
+                borderTopStyle: "solid" as const,
+              }}
+            >
+              <div
+                className="text-2xl sm:text-3xl font-bold tabular-nums"
+                style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}
+              >
+                <AnimatedStat target={stat.value} suffix={stat.suffix} />
+              </div>
+              <div className="mt-1 text-xs font-medium" style={{ color: "var(--foreground)" }}>
+                {stat.label}
+              </div>
+              <div className="text-[10px]" style={{ color: "var(--foreground-muted)" }}>
+                {stat.sublabel}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </motion.section>
+
+      {/* ═══ Section 2: Problem — Without / With ═══ */}
+      <motion.section className="mb-32" {...sectionStagger}>
+        <motion.div {...sectionChild}>
+          <SectionHeader tag="THE_PROBLEM">
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+              {problem.headline}
+            </h2>
+          </SectionHeader>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Without */}
+          <motion.div {...sectionChild}>
+            <Card className="h-full border-red-500/20">
+              <CardContent>
+                <div className="flex items-center gap-2 mb-4">
+                  <XIcon className="h-5 w-5 text-red-500" />
+                  <h3 className="text-lg font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+                    {problem.without.title}
+                  </h3>
+                </div>
+                <ul className="space-y-3">
+                  {problem.without.points.map((point, i) => (
+                    <li key={i} className="flex gap-3 text-sm" style={{ color: "var(--foreground-muted)" }}>
+                      <XIcon className="h-4 w-4 shrink-0 mt-0.5 text-red-500/60" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* With */}
+          <motion.div {...sectionChild}>
+            <Card className="h-full" style={{ borderColor: "var(--primary)", borderWidth: 1 }}>
+              <CardContent>
+                <div className="flex items-center gap-2 mb-4">
+                  <Check className="h-5 w-5" style={{ color: "var(--primary)" }} />
+                  <h3 className="text-lg font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+                    {problem.with.title}
+                  </h3>
+                </div>
+                <ul className="space-y-3">
+                  {problem.with.points.map((point, i) => (
+                    <li key={i} className="flex gap-3 text-sm" style={{ color: "var(--foreground-muted)" }}>
+                      <Check className="h-4 w-4 shrink-0 mt-0.5" style={{ color: "var(--primary)" }} />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </motion.section>
 
-      {/* ── Stats ── */}
-      <motion.section
-        className="mb-24 grid grid-cols-2 md:grid-cols-4 border"
-        style={{
-          borderColor: "var(--border)",
-          borderRadius: "var(--radius)",
-          backgroundColor: "var(--bg-card)",
-        }}
-        {...variants.slideUp}
-      >
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            className="px-4 sm:px-6 py-8 text-center"
-            style={{
-              borderColor: "var(--border)",
-              borderLeftWidth: i % 2 !== 0 ? "1px" : 0,
-              borderLeftStyle: "solid" as const,
-              borderTopWidth: i >= 2 ? "1px" : 0,
-              borderTopStyle: "solid" as const,
-            }}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 * i, ...transitions.enter }}
-          >
-            <stat.icon
-              className="mx-auto mb-2 h-5 w-5"
-              style={{ color: "var(--primary)" }}
-              strokeWidth={1.5}
-            />
-            <div
-              className="text-3xl sm:text-4xl font-bold tabular-nums"
-              style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}
-            >
-              <AnimatedStat target={stat.value} suffix={stat.suffix} />
-            </div>
-            <div
-              className="mt-1 text-[10px] sm:text-xs font-mono uppercase tracking-wider"
-              style={{ color: "var(--foreground-muted)" }}
-            >
-              {stat.label}
-            </div>
-          </motion.div>
-        ))}
+      {/* ═══ Section 3: How It Works ═══ */}
+      <motion.section className="mb-32" {...sectionStagger}>
+        <motion.div {...sectionChild}>
+          <SectionHeader tag="HOW_IT_WORKS">
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+              From brief to deployed code in three steps
+            </h2>
+          </SectionHeader>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {howItWorks.map((item, i) => {
+            const Icon = howItWorksIcons[i];
+            return (
+              <motion.div key={item.step} {...sectionChild}>
+                <Card className="h-full group hover:ring-1 hover:ring-primary/30 transition-shadow">
+                  <CardContent className="flex flex-col h-full">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="flex h-10 w-10 items-center justify-center rounded-lg"
+                        style={{ backgroundColor: "var(--accent-muted)" }}
+                      >
+                        <Icon className="h-5 w-5" style={{ color: "var(--primary)" }} />
+                      </div>
+                      <span className="font-mono text-xs" style={{ color: "var(--foreground-muted)" }}>
+                        STEP_{item.step}
+                      </span>
+                    </div>
+                    <h3 className="mb-3 text-xl font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+                      {item.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
+                      {item.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
       </motion.section>
 
-      {/* ── How It Works ── */}
-      <section className="mb-24">
-        <p
-          className="mb-2 text-xs font-mono uppercase tracking-[0.2em]"
-          style={{ color: "var(--primary)" }}
-        >
-          // HOW_IT_WORKS
-        </p>
-        <h2 className="mb-10 text-3xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-          Three steps to orchestrated AI
-        </h2>
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={variants.stagger}
-          initial="initial"
-          animate="animate"
-        >
-          {howItWorks.map((item) => (
-            <motion.div key={item.step} variants={variants.slideUp}>
-              <Card className="h-full hover:ring-foreground/25 transition-shadow">
-                <CardContent className="flex flex-col flex-1">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="flex h-10 w-10 items-center justify-center rounded-lg"
-                      style={{ backgroundColor: "var(--accent-muted)" }}
-                    >
-                      <item.icon className="h-5 w-5" style={{ color: "var(--primary)" }} />
-                    </div>
-                    <span
-                      className="font-mono text-xs"
-                      style={{ color: "var(--foreground-muted)" }}
-                    >
-                      STEP_{item.step}
-                    </span>
-                  </div>
-                  <h3 className="mb-2 text-xl font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
-                    {item.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--foreground-muted)" }}>
-                    {item.desc}
-                  </p>
-                  <div className="flex gap-2 mt-auto">
-                    {item.tags.map((tag) => (
-                      <Badge key={tag}>[{tag}]</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+      {/* ═══ Section 4: Agent Team ═══ */}
+      <motion.section className="mb-32" {...sectionStagger}>
+        <motion.div {...sectionChild}>
+          <SectionHeader tag="AGENT_FLEET">
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+              Meet the team that builds your software
+            </h2>
+            <p className="mt-3 text-base" style={{ color: "var(--foreground-muted)" }}>
+              Every agent has a name, a role, defined boundaries, and a trust level. They collaborate through structured workflows — not unstructured chat.
+            </p>
+          </SectionHeader>
         </motion.div>
-      </section>
 
-      {/* ── Agent Team ── */}
-      <section className="mb-24">
-        <p
-          className="mb-2 text-xs font-mono uppercase tracking-[0.2em]"
-          style={{ color: "var(--primary)" }}
-        >
-          // AGENT_FLEET
-        </p>
-        <h2 className="mb-10 text-3xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-          Meet your AI engineering team
-        </h2>
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
-          variants={variants.stagger}
-          initial="initial"
-          animate="animate"
-        >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {agents.map((agent) => (
-            <motion.div key={agent.name} variants={variants.slideUp}>
-              <Card className="group relative overflow-hidden">
+            <motion.div key={agent.name} {...sectionChild}>
+              <Card className="group hover:ring-1 hover:ring-primary/20 transition-all">
                 <CardContent>
                   <div className="flex items-center gap-3 mb-3">
                     <div
@@ -257,118 +282,212 @@ export function HeroPage() {
                     >
                       {agent.name[0]}
                     </div>
-                    {/* Status dot */}
                     <span
-                      className="inline-block h-2 w-2 rounded-full"
-                      style={{
-                        backgroundColor:
-                          agent.status === "ACTIVE" ? "#22C55E" :
-                          agent.status === "REVIEWING" ? "#FBBF24" : "#6B7280",
-                        boxShadow: agent.status === "ACTIVE" ? "0 0 6px #22C55E80" : undefined,
-                      }}
+                      className="inline-block h-2 w-2 rounded-full animate-pulse-glow"
+                      style={{ backgroundColor: "#22C55E", color: "#22C55E" }}
                     />
                   </div>
                   <div className="font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
                     {agent.name}
                   </div>
-                  <div className="text-xs font-mono mb-2" style={{ color: "var(--foreground-muted)" }}>
+                  <div className="text-xs font-mono mb-2" style={{ color: agent.color }}>
                     {agent.role}
                   </div>
-                  <Badge variant={agent.status === "ACTIVE" ? "default" : "secondary"}>
-                    [{agent.status}]
-                  </Badge>
+                  <p className="text-[11px] leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
+                    {agent.description}
+                  </p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
-        </motion.div>
-      </section>
-
-      {/* ── Terminal Demo ── */}
-      <motion.section
-        className="mb-24"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={transitions.enter}
-      >
-        <p
-          className="mb-2 text-xs font-mono uppercase tracking-[0.2em]"
-          style={{ color: "var(--primary)" }}
-        >
-          // DISPATCH_TERMINAL
-        </p>
-        <h2 className="mb-8 text-3xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-          One command to ship
-        </h2>
-        <div
-          className="overflow-hidden border"
-          style={{
-            borderColor: "var(--border)",
-            borderRadius: "var(--radius)",
-            backgroundColor: "var(--bg-card)",
-          }}
-        >
-          <div
-            className="flex items-center gap-2 border-b px-4 py-2"
-            style={{ borderColor: "var(--border)", backgroundColor: "var(--bg-secondary)" }}
-          >
-            <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "#FF5F57" }} />
-            <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "#FFBD2E" }} />
-            <div className="h-3 w-3 rounded-full" style={{ backgroundColor: "#28C840" }} />
-            <span className="ml-2 text-xs" style={{ color: "var(--foreground-muted)", fontFamily: "var(--font-mono)" }}>
-              terminal
-            </span>
-          </div>
-          <pre
-            className="p-6 text-sm leading-relaxed overflow-x-auto"
-            style={{ fontFamily: "var(--font-mono)", color: "var(--foreground-muted)" }}
-          >
-            <code>
-              <span style={{ color: "var(--foreground-muted)" }}>$</span>{" "}
-              <span style={{ color: "var(--primary)" }}>kyros dispatch</span>{" "}
-              <span style={{ color: "var(--foreground)" }}>"Add OAuth2 login with Google and GitHub providers"</span>
-              {"\n\n"}
-              <span style={{ color: "var(--foreground-muted)" }}>→ Assembling team: Akira (backend), Zara (frontend), Grace (review)</span>
-              {"\n"}
-              <span style={{ color: "var(--foreground-muted)" }}>→ Sprint created: 3 tasks, estimated 45 min</span>
-              {"\n"}
-              <span style={{ color: "var(--primary)" }}>→ Agents executing...</span>
-              {"\n\n"}
-              <span style={{ color: "#22C55E" }}>✓ PR #247 ready for review (18 files, 1,240 lines, 186 tests passing)</span>
-            </code>
-          </pre>
         </div>
       </motion.section>
 
-      {/* ── CTA ── */}
-      <motion.section
-        className="mb-16 text-center py-16"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={transitions.enter}
-      >
-        <Users className="mx-auto mb-4 h-8 w-8" style={{ color: "var(--primary)" }} />
-        <h2 className="mb-4 text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-          Ready to build with <span style={{ color: "var(--primary)" }}>Kyros</span>?
-        </h2>
-        <p className="mb-8 text-lg" style={{ color: "var(--foreground-muted)" }}>
-          Join the Design Partner Program. Limited spots available.
-        </p>
-        <motion.button
-          className="px-8 py-4 text-base font-semibold cursor-pointer"
+      {/* ═══ Section 5: Architecture ═══ */}
+      <motion.section className="mb-32" {...sectionStagger}>
+        <motion.div {...sectionChild}>
+          <SectionHeader tag="ARCHITECTURE">
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+              Production infrastructure. Not a prototype.
+            </h2>
+            <p className="mt-3 text-base" style={{ color: "var(--foreground-muted)" }}>
+              Kyros runs on the same technologies you'd choose for a production SaaS — because it is one. 150K+ lines of TypeScript, fully typed, fully tested.
+            </p>
+          </SectionHeader>
+        </motion.div>
+
+        {/* Stack badges */}
+        <motion.div className="flex flex-wrap gap-2 mb-8" {...sectionChild}>
+          {stackBadges.map((badge) => (
+            <Badge key={badge} variant="outline" className="text-xs px-3 py-1">
+              {badge}
+            </Badge>
+          ))}
+        </motion.div>
+
+        {/* Architecture cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {architectureCards.map((card, i) => {
+            const Icon = archIcons[i];
+            return (
+              <motion.div key={card.metric} {...sectionChild}>
+                <Card className="h-full">
+                  <CardContent>
+                    <div className="flex items-center gap-2 mb-4">
+                      <Icon className="h-5 w-5" style={{ color: "var(--primary)" }} />
+                      <span className="text-xs font-mono uppercase" style={{ color: "var(--primary)" }}>
+                        {card.metric}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                      {card.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--foreground-muted)" }}>
+                      {card.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.section>
+
+      {/* ═══ Section 6: Social Proof / Numbers ═══ */}
+      <motion.section className="mb-32" {...scrollReveal}>
+        <div
+          className="text-center py-16 px-6 rounded-xl border"
           style={{
-            backgroundColor: "var(--primary)",
-            color: "var(--primary-foreground)",
-            borderRadius: "var(--radius)",
-            boxShadow: "0 0 30px var(--accent-muted)",
+            backgroundColor: "var(--bg-card)",
+            borderColor: "var(--border)",
           }}
-          whileHover={{ scale: 1.03, boxShadow: "0 0 40px #CCFF0040" }}
-          whileTap={{ scale: 0.98 }}
         >
-          Apply for Early Access →
-        </motion.button>
+          <p className="text-xs font-mono uppercase tracking-[0.2em] mb-4" style={{ color: "var(--primary)" }}>
+            // BUILT_IN_PUBLIC
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-12" style={{ fontFamily: "var(--font-heading)" }}>
+            The numbers speak
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <div className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}>
+                  <AnimatedStat target={stat.value} suffix={stat.suffix} />
+                </div>
+                <div className="text-sm font-medium mt-1">{stat.label}</div>
+                <div className="text-[11px]" style={{ color: "var(--foreground-muted)" }}>{stat.sublabel}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Founder quote */}
+          <div className="max-w-3xl mx-auto">
+            <Quote className="mx-auto h-8 w-8 mb-4" style={{ color: "var(--primary)", opacity: 0.4 }} />
+            <blockquote className="text-base sm:text-lg italic leading-relaxed mb-4" style={{ color: "var(--foreground-muted)" }}>
+              "{founderQuote.text}"
+            </blockquote>
+            <p className="text-sm font-semibold">{founderQuote.author}</p>
+            <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>{founderQuote.role}</p>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* ═══ Section 7: Use Cases / Personas ═══ */}
+      <motion.section className="mb-32" {...sectionStagger}>
+        <motion.div {...sectionChild}>
+          <SectionHeader tag="USE_CASES">
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+              Built for builders who ship
+            </h2>
+          </SectionHeader>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {personas.map((persona, i) => {
+            const Icon = personaIcons[i];
+            return (
+              <motion.div key={persona.title} {...sectionChild}>
+                <Card className="h-full group hover:ring-1 hover:ring-primary/20 transition-all">
+                  <CardContent className="flex flex-col h-full">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="flex h-10 w-10 items-center justify-center rounded-lg"
+                        style={{ backgroundColor: "var(--accent-muted)" }}
+                      >
+                        <Icon className="h-5 w-5" style={{ color: "var(--primary)" }} />
+                      </div>
+                      <Badge variant="outline">{persona.title}</Badge>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3" style={{ fontFamily: "var(--font-heading)" }}>
+                      {persona.headline}
+                    </h3>
+                    <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: "var(--foreground-muted)" }}>
+                      {persona.description}
+                    </p>
+                    <div
+                      className="text-xs px-3 py-2 rounded-md"
+                      style={{
+                        backgroundColor: "var(--accent-muted)",
+                        color: "var(--primary)",
+                        borderRadius: "var(--radius)",
+                      }}
+                    >
+                      <strong>Proof:</strong> {persona.proof}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      </motion.section>
+
+      {/* ═══ Section 8: Final CTA ═══ */}
+      <motion.section className="mb-16" {...scrollReveal}>
+        <div className="text-center py-20">
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            {finalCta.headline.split(".")[0]}.
+            <br />
+            <span style={{ color: "var(--primary)" }}>
+              {finalCta.headline.split(".")[1]?.trim() || "Start orchestrating."}
+            </span>
+          </h2>
+          <p className="mx-auto mb-10 max-w-2xl text-base sm:text-lg" style={{ color: "var(--foreground-muted)" }}>
+            {finalCta.subheadline}
+          </p>
+
+          {/* Email capture */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto mb-4">
+            <div className="relative flex-1 w-full">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" style={{ color: "var(--foreground-muted)" }} />
+              <Input
+                type="email"
+                placeholder={finalCta.inputPlaceholder}
+                className="pl-10 h-12"
+              />
+            </div>
+            <motion.button
+              className="px-6 h-12 text-sm font-semibold cursor-pointer whitespace-nowrap inline-flex items-center gap-2 w-full sm:w-auto justify-center"
+              style={{
+                backgroundColor: "var(--primary)",
+                color: "var(--primary-foreground)",
+                borderRadius: "var(--radius)",
+                boxShadow: "0 0 30px var(--accent-muted)",
+              }}
+              whileHover={{ scale: 1.03, boxShadow: "0 0 40px var(--accent-muted)" }}
+              whileTap={{ scale: 0.98 }}
+              transition={transitions.micro}
+            >
+              {finalCta.buttonText} <ArrowRight className="h-4 w-4" />
+            </motion.button>
+          </div>
+          <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>
+            {finalCta.finePrint}
+          </p>
+        </div>
       </motion.section>
     </div>
   );

@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { Zap } from "lucide-react";
+import { KyrosLogo } from "@/components/KyrosLogo";
 
 const links = [
   { to: "/", label: "Overview" },
-  { to: "/components", label: "Components" },
+  { to: "/pricing", label: "Pricing" },
   { to: "/dashboard", label: "Dashboard" },
+  { to: "/components", label: "Components" },
   { to: "/typography", label: "Typography" },
 ];
 
@@ -20,7 +21,7 @@ export function TopBar() {
     >
       {/* Logo */}
       <div className="flex items-center gap-2">
-        <Zap className="h-5 w-5" style={{ color: "var(--primary)" }} />
+        <KyrosLogo size={22} />
         <span
           className="text-sm font-bold tracking-wide"
           style={{ fontFamily: "var(--font-heading)", color: "var(--foreground)" }}
@@ -48,16 +49,17 @@ export function TopBar() {
         ))}
       </nav>
 
-      {/* Avatar placeholder */}
-      <div
-        className="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold"
+      {/* CTA */}
+      <button
+        className="px-4 py-1.5 text-xs font-semibold cursor-pointer"
         style={{
-          backgroundColor: "var(--accent-muted)",
-          color: "var(--primary)",
+          backgroundColor: "var(--primary)",
+          color: "var(--primary-foreground)",
+          borderRadius: "var(--radius)",
         }}
       >
-        JM
-      </div>
+        Get Early Access
+      </button>
     </header>
   );
 }

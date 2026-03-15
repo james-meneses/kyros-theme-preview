@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Sidebar } from "@/components/nav/Sidebar";
 import { TopBar } from "@/components/nav/TopBar";
 import { MinimalNav } from "@/components/nav/MinimalNav";
+import { FloatingSettings } from "@/components/FloatingSettings";
 import { HeroPage } from "@/pages/HeroPage";
+import { PricingPage } from "@/pages/PricingPage";
 import { ComponentsPage } from "@/pages/ComponentsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { TypographyPage } from "@/pages/TypographyPage";
@@ -12,7 +14,8 @@ import { transitions } from "@/lib/motion";
 
 type NavVariant = "sidebar" | "topbar" | "minimal";
 
-/** Tactical Neon CSS variables set once at the root */
+/** Tactical Neon CSS variables — applied to document.documentElement so
+ *  FloatingSettings can override them on the same cascade level. */
 const themeVars: Record<string, string> = {
   "--bg": "#050505",
   "--bg-secondary": "#0D0D0D",
@@ -59,8 +62,9 @@ function AnimatedRoutes() {
       >
         <Routes location={location}>
           <Route path="/" element={<HeroPage />} />
-          <Route path="/components" element={<ComponentsPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/components" element={<ComponentsPage />} />
           <Route path="/typography" element={<TypographyPage />} />
         </Routes>
       </motion.div>
@@ -69,42 +73,31 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
-  const [navVariant, setNavVariant] = useState<NavVariant>("sidebar");
+  const [navVariant, setNavVariant] = useState<NavVariant>("topbar");
+
+  // Set theme vars on document.body so FloatingSettings can override them
+  // (must be body, not html — index.css sets fallback vars on body which would
+  // override inherited values from html in the CSS cascade)
+  useEffect(() => {
+    for (const [key, value] of Object.entries(themeVars)) {
+      document.body.style.setProperty(key, value);
+    }
+  }, []);
 
   return (
     <div
       className="dark min-h-screen"
       style={{
-        ...themeVars,
         backgroundColor: "var(--bg)",
         color: "var(--foreground)",
         fontFamily: "var(--font-body)",
       }}
     >
-      {/* Nav variant switcher — floating pill */}
-      <div
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-1 rounded-full border px-2 py-1.5"
-        style={{
-          backgroundColor: "var(--bg-card)",
-          borderColor: "var(--border)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
-        }}
-      >
-        <span className="text-[10px] font-mono px-2" style={{ color: "var(--foreground-muted)" }}>NAV:</span>
-        {(["sidebar", "topbar", "minimal"] as const).map((v) => (
-          <button
-            key={v}
-            onClick={() => setNavVariant(v)}
-            className="px-3 py-1 text-[11px] font-medium transition-all cursor-pointer rounded-full"
-            style={{
-              backgroundColor: navVariant === v ? "var(--primary)" : "transparent",
-              color: navVariant === v ? "var(--primary-foreground)" : "var(--foreground-muted)",
-            }}
-          >
-            {v}
-          </button>
-        ))}
-      </div>
+      {/* Floating settings FAB (bottom-right) */}
+      <FloatingSettings
+        navVariant={navVariant}
+        onNavVariantChange={setNavVariant}
+      />
 
       {/* Layout shell */}
       {navVariant === "sidebar" ? (

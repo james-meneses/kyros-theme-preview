@@ -5,14 +5,16 @@ import {
   BarChart3,
   Type,
   ChevronLeft,
-  Zap,
+  DollarSign,
 } from "lucide-react";
 import { useState } from "react";
+import { KyrosLogo } from "@/components/KyrosLogo";
 
 const links = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
-  { to: "/components", label: "Components", icon: Component },
+  { to: "/pricing", label: "Pricing", icon: DollarSign },
   { to: "/dashboard", label: "Dashboard", icon: BarChart3 },
+  { to: "/components", label: "Components", icon: Component },
   { to: "/typography", label: "Typography", icon: Type },
 ];
 
@@ -33,7 +35,7 @@ export function Sidebar() {
         className="flex items-center gap-2 border-b px-4 h-14"
         style={{ borderColor: "var(--border)" }}
       >
-        <Zap className="h-5 w-5 shrink-0" style={{ color: "var(--primary)" }} />
+        <KyrosLogo size={22} className="shrink-0" />
         {!collapsed && (
           <span
             className="text-sm font-bold tracking-wide"

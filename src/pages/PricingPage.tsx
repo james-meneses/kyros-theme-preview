@@ -29,7 +29,7 @@ export function PricingPage() {
       </motion.section>
 
       {/* ── Pricing Tiers ── */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {pricing.tiers.map((tier) => (
             <motion.div key={tier.name} {...sectionChild}>
@@ -100,7 +100,7 @@ export function PricingPage() {
       </motion.section>
 
       {/* ── Competitive Positioning ── */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
             // COMPETITIVE_POSITIONING
@@ -175,7 +175,7 @@ export function PricingPage() {
       </motion.section>
 
       {/* ── Why Kyros ── */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
             // WHY_KYROS

@@ -58,6 +58,38 @@ number-flow-react {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
+/* Hero spotlight — radial gradient from primary at very low opacity */
+.hero-spotlight {
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 18%,
+    color-mix(in srgb, var(--primary) 5%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* Dot matrix texture — subtle grid of dots using primary color */
+.hero-dot-matrix {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--primary) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  opacity: 0.25;
+}
+
+/* Soft gradient divider — replaces hard borders between sections */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--primary) 20%, transparent) 30%,
+    color-mix(in srgb, var(--primary) 20%, transparent) 70%,
+    transparent
+  );
+}
+
 /* Reduced motion: collapse all custom animations */
 @media (prefers-reduced-motion: reduce) {
   .animate-pulse-glow {

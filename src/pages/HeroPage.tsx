@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import NumberFlow from "@number-flow/react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,33 +9,33 @@ import { AgentAvatar } from "@/components/AgentAvatar";
 import {
   transitions, heroStagger, heroChild,
   sectionStagger, sectionChild, scrollReveal,
+  cardStagger, cardChild,
 } from "@/lib/motion";
 import {
   Zap, GitBranch, BarChart3, Brain, Network, Cpu,
   ArrowRight, Check, X as XIcon, Quote, Mail,
   User, Briefcase, Building2,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import {
   hero, stats, problem, howItWorks, agents,
   stackBadges, architectureCards, personas,
   founderQuote, finalCta,
 } from "@/data/brand";
 
-/* ── Animated stat counter ── */
-function AnimatedStat({ target, suffix = "" }: { target: number; suffix?: string }) {
+/* ── Animated stat counter — fires ONLY when the stat enters viewport ── */
+function AnimatedStat({ target, suffix = "", delay = 0 }: { target: number; suffix?: string; delay?: number }) {
   const [value, setValue] = useState(0);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    if (inView) {
-      const t = setTimeout(() => setValue(target), 100);
-      return () => clearTimeout(t);
-    }
-  }, [inView, target]);
+  const fired = useRef(false);
   return (
     <motion.span
       className="inline-flex items-baseline"
-      onViewportEnter={() => setInView(true)}
+      onViewportEnter={() => {
+        if (fired.current) return;
+        fired.current = true;
+        setTimeout(() => setValue(target), delay);
+      }}
+      viewport={{ once: true, margin: "-40px" }}
     >
       <NumberFlow value={value} />
       {suffix && <span>{suffix}</span>}
@@ -46,7 +46,7 @@ function AnimatedStat({ target, suffix = "" }: { target: number; suffix?: string
 /* ── Section Header helper ── */
 function SectionHeader({ tag, children }: { tag: string; children: React.ReactNode }) {
   return (
-    <div className="mb-12">
+    <div className="mb-8 md:mb-12">
       <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
         // {tag}
       </p>
@@ -60,20 +60,30 @@ const archIcons = [Brain, Network, Cpu];
 const personaIcons = [User, Briefcase, Building2];
 
 export function HeroPage() {
+  const reducedMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  // Subtle parallax: glow shifts 8px over the hero scroll range
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 8]);
+
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 md:py-24">
       {/* ═══ Section 1: Hero ═══ */}
       <motion.section
-        className="relative mb-40 text-center"
+        ref={heroRef}
+        className="relative mb-12 sm:mb-16 md:mb-24 lg:mb-32 text-center"
         {...heroStagger}
       >
-        {/* Radial glow behind hero — draws eye to primary message */}
-        <div
-          className="pointer-events-none absolute inset-0 -top-32"
-          style={{
-            background: "radial-gradient(ellipse 60% 40% at 50% 20%, rgba(204,255,0,0.06) 0%, transparent 70%)",
-          }}
+        {/* Radial spotlight — theme-adaptive via CSS custom property */}
+        <motion.div
+          className="pointer-events-none absolute inset-0 -top-32 hero-spotlight"
+          style={{ y: parallaxY }}
         />
+        {/* Subtle dot matrix texture — adds depth to hero background */}
+        <div className="pointer-events-none absolute inset-0 -top-32 hero-dot-matrix" />
         <motion.div {...heroChild}>
           <Badge className="mb-6 text-xs px-4 py-1.5">
             {hero.badge}
@@ -131,7 +141,7 @@ export function HeroPage() {
 
         {/* Stats bar */}
         <motion.div
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 border"
+          className="mt-8 sm:mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 border"
           style={{
             borderColor: "var(--border)",
             borderRadius: "var(--radius)",
@@ -142,20 +152,18 @@ export function HeroPage() {
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className="px-4 sm:px-6 py-6 text-center"
-              style={{
-                borderColor: "var(--border)",
-                borderLeftWidth: i % 2 !== 0 ? "1px" : 0,
-                borderLeftStyle: "solid" as const,
-                borderTopWidth: i >= 2 ? "1px" : 0,
-                borderTopStyle: "solid" as const,
-              }}
+              className={[
+                "px-3 sm:px-6 py-4 sm:py-6 text-center border-[var(--border)]",
+                i % 2 !== 0 ? "border-l" : "",
+                i >= 2 ? "border-t md:border-t-0" : "",
+                i > 0 && i % 2 === 0 ? "md:border-l" : "",
+              ].filter(Boolean).join(" ")}
             >
               <div
                 className="text-2xl sm:text-3xl font-bold tabular-nums"
                 style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}
               >
-                <AnimatedStat target={stat.value} suffix={stat.suffix} />
+                <AnimatedStat target={stat.value} suffix={stat.suffix} delay={i * 120} />
               </div>
               <div className="mt-1 text-xs font-medium" style={{ color: "var(--foreground)" }}>
                 {stat.label}
@@ -168,8 +176,10 @@ export function HeroPage() {
         </motion.div>
       </motion.section>
 
+      <div className="section-divider" />
+
       {/* ═══ Section 2: Problem — Without / With ═══ */}
-      <motion.section className="mb-40" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="THE_PROBLEM">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -225,8 +235,10 @@ export function HeroPage() {
         </div>
       </motion.section>
 
+      <div className="section-divider" />
+
       {/* ═══ Section 3: How It Works ═══ */}
-      <motion.section className="mb-40" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="HOW_IT_WORKS">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -268,7 +280,7 @@ export function HeroPage() {
       </motion.section>
 
       {/* ═══ Section 3b: Terminal Demo — makes the workflow tangible ═══ */}
-      <section className="mb-40">
+      <section className="mb-12 sm:mb-16 md:mb-20 lg:mb-28">
         <div className="mb-8 text-center">
           <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
             // SEE_IT_IN_ACTION
@@ -282,8 +294,10 @@ export function HeroPage() {
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* ═══ Section 4: Agent Team ═══ */}
-      <motion.section className="mb-40" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="AGENT_FLEET">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -295,9 +309,9 @@ export function HeroPage() {
           </SectionHeader>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4" {...cardStagger}>
           {agents.map((agent) => (
-            <motion.div key={agent.name} {...sectionChild}>
+            <motion.div key={agent.name} {...cardChild}>
               <Card className="group hover:ring-1 hover:ring-primary/20 transition-all">
                 <CardContent>
                   <div className="flex items-center gap-3 mb-3">
@@ -320,11 +334,13 @@ export function HeroPage() {
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.section>
 
+      <div className="section-divider" />
+
       {/* ═══ Section 5: Architecture ═══ */}
-      <motion.section className="mb-40" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="ARCHITECTURE">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -369,8 +385,10 @@ export function HeroPage() {
         </div>
       </motion.section>
 
+      <div className="section-divider" />
+
       {/* ═══ Section 6: Social Proof / Numbers ═══ */}
-      <motion.section className="mb-32" {...scrollReveal}>
+      <motion.section className="mb-10 sm:mb-14 md:mb-20 lg:mb-28" {...scrollReveal}>
         <div
           className="text-center py-16 px-6 rounded-xl border"
           style={{
@@ -385,10 +403,10 @@ export function HeroPage() {
             The numbers speak
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            {stats.map((stat) => (
+            {stats.map((stat, idx) => (
               <div key={stat.label}>
                 <div className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}>
-                  <AnimatedStat target={stat.value} suffix={stat.suffix} />
+                  <AnimatedStat target={stat.value} suffix={stat.suffix} delay={idx * 120} />
                 </div>
                 <div className="text-sm font-medium mt-1">{stat.label}</div>
                 <div className="text-[11px]" style={{ color: "var(--foreground-muted)" }}>{stat.sublabel}</div>
@@ -408,8 +426,10 @@ export function HeroPage() {
         </div>
       </motion.section>
 
+      <div className="section-divider" />
+
       {/* ═══ Section 7: Use Cases / Personas ═══ */}
-      <motion.section className="mb-32" {...sectionStagger}>
+      <motion.section className="mb-10 sm:mb-14 md:mb-20 lg:mb-28" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <SectionHeader tag="USE_CASES">
             <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
@@ -418,11 +438,11 @@ export function HeroPage() {
           </SectionHeader>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6" {...cardStagger}>
           {personas.map((persona, i) => {
             const Icon = personaIcons[i];
             return (
-              <motion.div key={persona.title} {...sectionChild}>
+              <motion.div key={persona.title} {...cardChild}>
                 <Card className="h-full group hover:ring-1 hover:ring-primary/20 transition-all">
                   <CardContent className="flex flex-col h-full">
                     <div className="flex items-center gap-3 mb-4">
@@ -455,8 +475,10 @@ export function HeroPage() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </motion.section>
+
+      <div className="section-divider" />
 
       {/* ═══ Section 8: Final CTA ═══ */}
       <motion.section className="mb-16" {...scrollReveal}>

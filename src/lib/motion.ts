@@ -119,6 +119,32 @@ export const sectionChild = {
   },
 } as const;
 
+/** Staggered card reveal — slight Y-offset + rotation for agent/persona cards */
+export const cardStagger = {
+  initial: "hidden",
+  whileInView: "visible",
+  viewport: { once: true, margin: "-60px" },
+  variants: {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.07 },
+    },
+  },
+} as const;
+
+/** Individual card child with Y-offset + subtle rotation */
+export const cardChild = {
+  variants: {
+    hidden: { opacity: 0, y: 20, rotate: -1.5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotate: 0,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    },
+  },
+} as const;
+
 /** Tactical Neon chart colors for Recharts */
 export const chartColors = {
   primary: "#CCFF00",

@@ -7,6 +7,7 @@ import { TerminalDemo } from "@/components/TerminalDemo";
 import { Marquee } from "@/components/Marquee";
 import { AnimatedAgentAvatar, useDemoAgentState } from "@/components/AnimatedAgentAvatar";
 import { DiscussionReveal } from "@/components/DiscussionReveal";
+import { TrustSignals } from "@/components/TrustSignals";
 import {
   transitions, heroStagger, heroChild,
   sectionStagger, sectionChild, scrollReveal,
@@ -446,6 +447,11 @@ export function HeroPage() {
           </div>
         </div>
       </motion.section>
+
+      <div className="section-divider" />
+
+      {/* ═══ Section 6b: Trust Signals / Build Proof ═══ */}
+      <TrustSignals />
 
       <div className="section-divider" />
 

@@ -27,20 +27,42 @@
   --ring: inherit;
 }
 
-/* Fallback defaults on body to prevent white flash before React mounts */
+/* Fallback defaults on body — Tactical Neon theme */
 body {
-  --background: #0B090A;
-  --foreground: #F2F2F2;
-  --card: #1A181B;
-  --border: #2A2A2A;
-  --primary: #C3FF49;
-  --primary-foreground: #0B090A;
-  --muted: #1E1C1F;
-  --muted-foreground: #71717A;
-  --input: #2A2A2A;
-  --ring: #C3FF49;
-  --secondary: #7B61FF;
-  --accent: #C3FF49;
+  --background: #050505;
+  --foreground: #FAFAFA;
+  --card: #151515;
+  --border: #252525;
+  --primary: #CCFF00;
+  --primary-foreground: #050505;
+  --muted: #1A1A1A;
+  --muted-foreground: #666666;
+  --input: #252525;
+  --ring: #CCFF00;
+  --secondary: #6366F1;
+  --accent: #CCFF00;
+}
+
+/* NumberFlow — inherit theme colors */
+number-flow-react {
+  --number-flow-char-height: 1em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pulsing glow for active status dots */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 4px currentColor; opacity: 1; }
+  50% { box-shadow: 0 0 10px currentColor; opacity: 0.7; }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Reduced motion: collapse all custom animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow {
+    animation: none;
+  }
 }
 
 /* Font smoothing — no padding/margin reset, Tailwind handles that via preflight */

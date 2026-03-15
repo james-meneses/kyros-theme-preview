@@ -1,30 +1,25 @@
 import { motion } from "motion/react";
+import NumberFlow from "@number-flow/react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { variants, transitions } from "@/lib/motion";
 import { Zap, Users, Code, Shield, GitBranch, Bot, Activity, BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-/* ── Animated counter ── */
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
+/** Animated stat that rolls from 0 → target on mount using NumberFlow */
+function AnimatedStat({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [value, setValue] = useState(0);
   useEffect(() => {
-    const duration = 1200;
-    const steps = 40;
-    const increment = target / steps;
-    let current = 0;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(timer);
+    // Small delay so the roll animation is visible after page render
+    const t = setTimeout(() => setValue(target), 200);
+    return () => clearTimeout(t);
   }, [target]);
-  return <>{count.toLocaleString()}{suffix}</>;
+  return (
+    <span className="inline-flex items-baseline">
+      <NumberFlow value={value} />
+      {suffix && <span>{suffix}</span>}
+    </span>
+  );
 }
 
 const stats = [
@@ -169,7 +164,7 @@ export function HeroPage() {
               className="text-3xl sm:text-4xl font-bold tabular-nums"
               style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}
             >
-              <Counter target={stat.value} suffix={stat.suffix} />
+              <AnimatedStat target={stat.value} suffix={stat.suffix} />
             </div>
             <div
               className="mt-1 text-[10px] sm:text-xs font-mono uppercase tracking-wider"

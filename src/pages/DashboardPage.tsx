@@ -11,6 +11,7 @@ import {
   Activity, Bot, DollarSign, GitPullRequest,
   TrendingUp, Zap, Clock,
 } from "lucide-react";
+import { AgentAvatar } from "@/components/AgentAvatar";
 import {
   ResponsiveContainer, LineChart, Line, AreaChart, Area,
   BarChart, Bar, PieChart, Pie, Cell,
@@ -62,12 +63,12 @@ const agentActivity = [
 ];
 
 const agents = [
-  { name: "Akira", role: "BACKEND_DEV", status: "ACTIVE", task: "OAuth2 token refresh with Redis caching", tokens: 14820, cost: "$0.12" },
-  { name: "Zara", role: "FRONTEND_DEV", status: "ACTIVE", task: "Dashboard notification panel", tokens: 9340, cost: "$0.08" },
-  { name: "Grace", role: "ARCHITECT", status: "REVIEWING", task: "Review PR #247 — event bus refactor", tokens: 6210, cost: "$0.05" },
-  { name: "Atlas", role: "QA_ENGINEER", status: "ACTIVE", task: "E2E tests for dispatch pipeline", tokens: 11450, cost: "$0.09" },
-  { name: "Ada", role: "DEVOPS", status: "ERROR", task: "Docker compose health-check timeout", tokens: 3780, cost: "$0.03" },
-  { name: "Dieter", role: "UI_DESIGNER", status: "IDLE", task: "—", tokens: 0, cost: "$0.00" },
+  { name: "Akira", role: "ORCHESTRATOR", color: "#3ECF8E", status: "ACTIVE", task: "OAuth2 token refresh with Redis caching", tokens: 14820, cost: "$0.12" },
+  { name: "Zara", role: "ARCHITECT", color: "#38BDF8", status: "ACTIVE", task: "Dashboard notification panel", tokens: 9340, cost: "$0.08" },
+  { name: "Grace", role: "BACKEND_DEV", color: "#A78BFA", status: "REVIEWING", task: "Review PR #247 — event bus refactor", tokens: 6210, cost: "$0.05" },
+  { name: "Atlas", role: "FE_ARCHITECT", color: "#FB923C", status: "ACTIVE", task: "E2E tests for dispatch pipeline", tokens: 11450, cost: "$0.09" },
+  { name: "Echo", role: "QA_ENGINEER", color: "#22D3EE", status: "ERROR", task: "Docker compose health-check timeout", tokens: 3780, cost: "$0.03" },
+  { name: "Lyra", role: "FRONTEND_DEV", color: "#F472B6", status: "IDLE", task: "—", tokens: 0, cost: "$0.00" },
 ];
 
 const statusColor: Record<string, string> = {
@@ -326,8 +327,13 @@ export function DashboardPage() {
               <TableBody>
                 {agents.map((agent) => (
                   <TableRow key={agent.name} className="transition-colors hover:bg-white/5">
-                    <TableCell className="px-4 py-3 font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
-                      {agent.name}
+                    <TableCell className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <AgentAvatar name={agent.name} color={agent.color} size={32} />
+                        <span className="font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+                          {agent.name}
+                        </span>
+                      </div>
                     </TableCell>
                     <TableCell className="px-4 py-3">
                       <Badge variant="secondary">[{agent.role}]</Badge>

@@ -5,7 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { TerminalDemo } from "@/components/TerminalDemo";
 import { Marquee } from "@/components/Marquee";
-import { AgentAvatar } from "@/components/AgentAvatar";
+import { AnimatedAgentAvatar, useDemoAgentState } from "@/components/AnimatedAgentAvatar";
+import { DiscussionReveal } from "@/components/DiscussionReveal";
 import {
   transitions, heroStagger, heroChild,
   sectionStagger, sectionChild, scrollReveal,
@@ -53,6 +54,12 @@ function SectionHeader({ tag, children }: { tag: string; children: React.ReactNo
       {children}
     </div>
   );
+}
+
+/* ── Hero agent card with cycling state animation ── */
+function HeroAgentCard({ name, color, index }: { name: string; color: string; index: number }) {
+  const demoState = useDemoAgentState(index);
+  return <AnimatedAgentAvatar name={name} color={color} size={40} state={demoState} />;
 }
 
 const howItWorksIcons = [Zap, GitBranch, BarChart3];
@@ -310,16 +317,12 @@ export function HeroPage() {
         </motion.div>
 
         <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4" {...cardStagger}>
-          {agents.map((agent) => (
+          {agents.map((agent, i) => (
             <motion.div key={agent.name} {...cardChild}>
               <Card className="group hover:ring-1 hover:ring-primary/20 transition-all">
                 <CardContent>
                   <div className="flex items-center gap-3 mb-3">
-                    <AgentAvatar name={agent.name} color={agent.color} size={40} />
-                    <span
-                      className="inline-block h-2 w-2 rounded-full animate-pulse-glow"
-                      style={{ backgroundColor: "#22C55E", color: "#22C55E" }}
-                    />
+                    <HeroAgentCard name={agent.name} color={agent.color} index={i} />
                   </div>
                   <div className="font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
                     {agent.name}
@@ -334,6 +337,24 @@ export function HeroPage() {
               </Card>
             </motion.div>
           ))}
+        </motion.div>
+      </motion.section>
+
+      {/* ═══ Section 4b: Discussion Consensus Reveal ═══ */}
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
+        <motion.div {...sectionChild}>
+          <SectionHeader tag="CONSENSUS">
+            <h2 className="text-3xl sm:text-4xl font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+              Agents don't just build. They decide together.
+            </h2>
+            <p className="mt-3 text-base" style={{ color: "var(--foreground-muted)" }}>
+              Multi-agent consensus review catches what single-agent workflows miss. Watch a real architectural decision unfold.
+            </p>
+          </SectionHeader>
+        </motion.div>
+
+        <motion.div className="max-w-2xl mx-auto" {...sectionChild}>
+          <DiscussionReveal />
         </motion.div>
       </motion.section>
 

@@ -11,7 +11,7 @@ import {
   Activity, Bot, DollarSign, GitPullRequest,
   TrendingUp, Zap, Clock,
 } from "lucide-react";
-import { AgentAvatar } from "@/components/AgentAvatar";
+import { AnimatedAgentAvatar, type AgentState } from "@/components/AnimatedAgentAvatar";
 import {
   ResponsiveContainer, LineChart, Line, AreaChart, Area,
   BarChart, Bar, PieChart, Pie, Cell,
@@ -76,6 +76,14 @@ const statusColor: Record<string, string> = {
   REVIEWING: "#FBBF24",
   IDLE: "#6B7280",
   ERROR: "#EF4444",
+};
+
+/** Map dashboard agent status to animation state */
+const statusToAnimState: Record<string, AgentState> = {
+  ACTIVE: "executing",
+  REVIEWING: "thinking",
+  IDLE: "idle",
+  ERROR: "idle",
 };
 
 const stats = [
@@ -329,7 +337,7 @@ export function DashboardPage() {
                   <TableRow key={agent.name} className="transition-colors hover:bg-white/5">
                     <TableCell className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <AgentAvatar name={agent.name} color={agent.color} size={32} />
+                        <AnimatedAgentAvatar name={agent.name} color={agent.color} size={32} state={statusToAnimState[agent.status] ?? "idle"} />
                         <span className="font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
                           {agent.name}
                         </span>

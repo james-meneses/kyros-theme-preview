@@ -11,55 +11,55 @@
 
 export const hero = {
   badge: "Design Partner Preview",
-  headline: "Your AI engineering team.",
-  headlineAccent: "Not another copilot.",
-  headlineAlt: "21 agents. One operator. Production code.",
+  headline: "The engineering team that never sleeps.",
+  headlineAccent: "21 agents. Zero recruiting.",
+  headlineAlt: "From brief to PR in minutes, not months.",
   headlineVariants: [
-    { headline: "Ship software, not prompts.", accent: "Not another copilot." },
-    { headline: "The engineering team that never sleeps.", accent: "21 agents. One operator." },
-    { headline: "From prompt to production.", accent: "Without the agency price tag." },
+    { headline: "Your AI engineering team.", accent: "Not another copilot." },
+    { headline: "Ship software, not prompts.", accent: "21 agents. One operator." },
+    { headline: "From brief to PR in minutes, not months.", accent: "$1.5M of output. 15 days." },
   ],
   subheadline:
-    "21 agents across 5 teams — architect, backend, frontend, security, QA — ship production software with governance, memory, and structured review.",
+    "21 agents ship production code — with architecture review, security audits, and QA on every merge.",
   primaryCta: "Get Early Access",
-  secondaryCta: "Watch Demo",
+  secondaryCta: "See It Work",
 } as const;
 
 // ── Stats ─────────────────────────────────────────────────
 
 export const stats = [
   { value: 21, suffix: "", label: "AI Agents", sublabel: "5 teams, governed workflow" },
-  { value: 150, suffix: "K+", label: "Lines Shipped", sublabel: "Production TypeScript" },
-  { value: 490, suffix: "+", label: "Git Commits", sublabel: "Attributed and reviewed" },
-  { value: 15, suffix: "", label: "Days to Build", sublabel: "Zero to production" },
+  { value: 150, suffix: "K+", label: "Lines Shipped", sublabel: "~$1.5M at agency rates" },
+  { value: 490, suffix: "+", label: "Git Commits", sublabel: "Every one reviewed and attributed" },
+  { value: 15, suffix: "", label: "Days", sublabel: "vs. 6+ months with an agency" },
 ] as const;
 
 // ── Problem Section ───────────────────────────────────────
 
 export const problem = {
   headline: "One agent writes code. A team ships software.",
-  headlineAlt: "AI assistance is not AI execution.",
+  headlineAlt: "Writing code is the easy part.",
   headlineVariants: [
     "Code generation is not software delivery.",
-    "Writing code is the easy part.",
+    "AI assistance is not AI execution.",
     "You don't need another code generator.",
   ],
   without: {
     title: "One agent, no structure",
     points: [
-      "Prompt, paste, fix hallucinations, re-prompt, repeat",
-      "No architecture review. No test strategy. No institutional memory",
-      "Code ships fast. Technical debt ships faster",
-      "Context resets every session — every conversation starts from zero",
+      "Monday: AI generates a login flow. Tuesday: it hallucinates a dependency. Wednesday: you're debugging code you didn't write.",
+      "No one reviews the architecture. No one writes tests. Six months later, you're rewriting everything.",
+      "Your agent doesn't remember yesterday. Every session starts cold — same questions, same mistakes.",
+      "You shipped fast. Your first security audit found 47 vulnerabilities.",
     ],
   },
   with: {
     title: "21 agents, governed workflow",
     points: [
-      "Architect reviews every PR. Backend and frontend build in parallel",
-      "QA writes tests. Security audits. Intelligence learns from every sprint",
-      "Three-tier memory persists context across sessions, sprints, and projects",
-      "Multi-agent consensus review catches what single-agent workflows miss",
+      "Architect reviews every PR before merge. Security flags vulnerabilities before they ship.",
+      "Backend and frontend build in parallel. QA writes tests alongside every feature.",
+      "Three-tier memory: agents remember yesterday's decisions, last sprint's patterns, and your entire codebase.",
+      "490+ commits. Zero skipped reviews. Every line attributed and traceable.",
     ],
   },
 } as const;
@@ -133,21 +133,21 @@ export const personas = [
     headline: "You're technical. You're one person. You need a team.",
     description:
       "Stop context-switching between frontend, backend, infra, and testing. Dispatch a sprint, review the output, merge. Ship like a team of five.",
-    proof: "One operator. 150K lines and 490+ commits in 15 days. Production-grade.",
+    proof: "150K lines in 15 days — ~$1.5M at agency rates. One operator. Production-grade.",
   },
   {
     title: "Tech Lead",
     headline: "Your team builds features. Kyros handles the rest.",
     description:
       "Delegate migrations, refactors, test coverage, and documentation to governed agents. Your engineers focus on work that requires judgment.",
-    proof: "Every PR reviewed by architect, security, and QA. Zero skipped reviews.",
+    proof: "490+ commits reviewed by architect, security, and QA. Zero skipped. Zero regressions.",
   },
   {
     title: "Agency Owner",
     headline: "More projects. Same headcount.",
     description:
-      "Each instance runs independently — isolated repos, agents, and context. Your team provides creative direction. Kyros provides engineering throughput.",
-    proof: "Isolated per-client instances. Full code ownership. IP transfers on delivery.",
+      "Each instance runs independently — isolated repos, agents, and context. Your team provides creative direction. Kyros delivers engineering throughput at 10x the speed.",
+    proof: "15-day delivery vs. 6-month agency timelines. Full code ownership. IP transfers on delivery.",
   },
 ] as const;
 
@@ -220,17 +220,56 @@ export const competitors = [
 ] as const;
 
 export const kyrosAdvantages = [
-  { title: "Governed Team Orchestration", description: "Five specialized teams — architecture, backend, frontend, security, QA — each with defined roles and review gates. Structure that scales." },
-  { title: "Consensus Code Review", description: "Every deliverable is independently reviewed for security vulnerabilities, architectural consistency, and test coverage before it ships." },
-  { title: "Self-Bootstrapped Proof", description: "150K+ lines shipped in 15 days. Kyros built itself — the product is its own case study and stress test." },
-  { title: "Persistent Knowledge Graph", description: "Codebase structure, learned patterns, and project context persist across sessions. No cold starts. No lost context." },
+  { title: "Governed Team Orchestration", description: "5 teams, 21 agents, defined review gates. Every PR passes architect, security, and QA before merge." },
+  { title: "Consensus Code Review", description: "490+ commits. Zero skipped reviews. Multi-agent consensus catches what single-agent workflows miss." },
+  { title: "Self-Bootstrapped Proof", description: "150K lines in 15 days — ~$1.5M at agency rates. Kyros built itself. The product is its own stress test." },
+  { title: "Persistent Knowledge Graph", description: "Three-tier memory across sessions, sprints, and projects. No cold starts. No repeated mistakes." },
+] as const;
+
+// ── Trust Signals / Build Timeline ────────────────────────
+
+export const buildTimeline = [
+  {
+    week: "Week 1",
+    title: "Foundation",
+    highlights: [
+      "Monorepo + CI/CD pipeline",
+      "21-agent definitions + governance",
+      "Orchestrator engine + BullMQ dispatch",
+    ],
+  },
+  {
+    week: "Week 2",
+    title: "Intelligence",
+    highlights: [
+      "Multi-agent consensus reviews",
+      "Knowledge graph + persistent memory",
+      "Real-time dashboard + WebSocket",
+    ],
+  },
+  {
+    week: "Week 3",
+    title: "Production",
+    highlights: [
+      "Auth hardening + security audit",
+      "Sprint planning + auto-dispatch",
+      "150K+ lines shipped, all reviewed",
+    ],
+  },
+] as const;
+
+export const buildProofMetrics = [
+  { value: "150K+", label: "Lines of TypeScript" },
+  { value: "490+", label: "Git Commits" },
+  { value: "21", label: "Governed Agents" },
+  { value: "15", label: "Days to Build" },
 ] as const;
 
 // ── Founder Quote ─────────────────────────────────────────
 
 export const founderQuote = {
   text: "I needed a team I couldn't afford and couldn't find. So I built one. 21 agents that never burn out, never lose context, and never skip the architecture review. The question isn't whether AI can write code — it's whether AI can ship software.",
-  short: "I needed a team I couldn't afford. So I built one. The question was never whether AI can write code — it's whether AI can ship software.",
+  short: "I needed a team I couldn't afford. So I built one — 21 agents, 150K lines, 15 days. The question was never whether AI can write code. It's whether AI can ship software.",
   author: "James Meneses",
   role: "Founder, Kyros",
 } as const;
@@ -238,15 +277,15 @@ export const founderQuote = {
 // ── Final CTA ─────────────────────────────────────────────
 
 export const finalCta = {
-  headline: "Stop hiring. Start orchestrating.",
-  headlineAlt: "Your AI engineering team is ready.",
+  headline: "Your team is ready.",
+  headlineAlt: "Stop hiring. Start orchestrating.",
   headlineVariants: [
-    "Your next sprint starts in minutes.",
-    "Replace the hiring pipeline. Ship this week.",
+    "Start building tonight.",
+    "Deploy your first sprint this week.",
     "21 agents. Zero recruiting. Go.",
   ],
-  subheadline: "Join the design partner program. Ship your first project with 21 governed agents.",
+  subheadline: "3-5 design partners. First project free. Apply now.",
   inputPlaceholder: "your@email.com",
-  buttonText: "Get Early Access",
-  finePrint: "First project free. No credit card required.",
+  buttonText: "Apply for Early Access",
+  finePrint: "No credit card. No commitment. Just ship.",
 } as const;

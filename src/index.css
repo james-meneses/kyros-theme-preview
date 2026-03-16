@@ -90,9 +90,59 @@ number-flow-react {
   );
 }
 
+/* Hero constellation — CSS-only particle field with slow drift */
+.hero-constellation {
+  position: absolute;
+  inset: 0;
+  top: -32px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-constellation::before,
+.hero-constellation::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+}
+.hero-constellation::before {
+  background-image: radial-gradient(
+    circle 1px,
+    color-mix(in srgb, var(--primary) 5%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 80px 80px;
+  opacity: 0.04;
+  animation: constellation-drift-1 45s linear infinite;
+}
+.hero-constellation::after {
+  background-image: radial-gradient(
+    circle 0.8px,
+    color-mix(in srgb, var(--primary) 3%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-size: 120px 120px;
+  opacity: 0.03;
+  animation: constellation-drift-2 60s linear infinite;
+}
+
+@keyframes constellation-drift-1 {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(80px, 40px); }
+}
+@keyframes constellation-drift-2 {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-60px, 60px); }
+}
+
 /* Reduced motion: collapse all custom animations */
 @media (prefers-reduced-motion: reduce) {
   .animate-pulse-glow {
+    animation: none;
+  }
+  .hero-constellation::before,
+  .hero-constellation::after {
     animation: none;
   }
 }

@@ -9,12 +9,13 @@ import {
 } from "@/lib/motion";
 import { Check, ArrowRight, Quote } from "lucide-react";
 import { pricing, competitors, kyrosAdvantages, founderQuote } from "@/data/brand";
+import { FAQ } from "@/components/FAQ";
 
 export function PricingPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12 md:py-20">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 md:py-20">
       {/* ── Header ── */}
-      <motion.section className="mb-20 text-center" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-20 lg:mb-24 text-center" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <p className="mb-3 text-xs font-mono uppercase tracking-[0.3em]" style={{ color: "var(--primary)" }}>
             [ PRICING ]
@@ -29,7 +30,7 @@ export function PricingPage() {
       </motion.section>
 
       {/* ── Pricing Tiers ── */}
-      <motion.section className="mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {pricing.tiers.map((tier) => (
             <motion.div key={tier.name} {...sectionChild}>
@@ -100,7 +101,7 @@ export function PricingPage() {
       </motion.section>
 
       {/* ── Competitive Positioning ── */}
-      <motion.section className="mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
             // COMPETITIVE_POSITIONING
@@ -175,7 +176,7 @@ export function PricingPage() {
       </motion.section>
 
       {/* ── Why Kyros ── */}
-      <motion.section className="mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
+      <motion.section className="mb-12 sm:mb-16 md:mb-24 lg:mb-32" {...sectionStagger}>
         <motion.div {...sectionChild}>
           <p className="mb-3 text-xs font-mono uppercase tracking-[0.2em]" style={{ color: "var(--primary)" }}>
             // WHY_KYROS
@@ -202,6 +203,9 @@ export function PricingPage() {
           ))}
         </div>
       </motion.section>
+
+      {/* ── FAQ ── */}
+      <FAQ />
 
       {/* ── Founder Quote ── */}
       <motion.section className="mb-16" {...scrollReveal}>

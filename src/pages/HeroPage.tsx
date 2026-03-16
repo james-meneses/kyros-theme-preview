@@ -8,6 +8,8 @@ import { Marquee } from "@/components/Marquee";
 import { AnimatedAgentAvatar, useDemoAgentState } from "@/components/AnimatedAgentAvatar";
 import { DiscussionReveal } from "@/components/DiscussionReveal";
 import { TrustSignals } from "@/components/TrustSignals";
+import { FeatureGrid } from "@/components/FeatureGrid";
+import { DashboardPreview } from "@/components/DashboardPreview";
 import {
   transitions, heroStagger, heroChild,
   sectionStagger, sectionChild, scrollReveal,
@@ -92,6 +94,8 @@ export function HeroPage() {
         />
         {/* Subtle dot matrix texture — adds depth to hero background */}
         <div className="pointer-events-none absolute inset-0 -top-32 hero-dot-matrix" />
+        {/* Constellation particle field — slow-drifting dot layers */}
+        <div className="hero-constellation" />
         <motion.div {...heroChild}>
           <Badge className="mb-6 text-xs px-4 py-1.5">
             {hero.badge}
@@ -406,6 +410,14 @@ export function HeroPage() {
           })}
         </div>
       </motion.section>
+
+      <div className="section-divider" />
+
+      {/* ═══ Section 5b: Feature Grid ═══ */}
+      <FeatureGrid />
+
+      {/* ═══ Section 5c: Dashboard Preview ═══ */}
+      <DashboardPreview />
 
       <div className="section-divider" />
 

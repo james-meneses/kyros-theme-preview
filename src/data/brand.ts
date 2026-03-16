@@ -11,55 +11,55 @@
 
 export const hero = {
   badge: "Design Partner Preview",
-  headline: "The engineering team that never sleeps.",
-  headlineAccent: "21 agents. Zero recruiting.",
+  headline: "Describe it Monday. Ship it Friday.",
+  headlineAccent: "21 agents. One operator. Production code.",
   headlineAlt: "From brief to PR in minutes, not months.",
   headlineVariants: [
-    { headline: "Your AI engineering team.", accent: "Not another copilot." },
-    { headline: "Ship software, not prompts.", accent: "21 agents. One operator." },
-    { headline: "From brief to PR in minutes, not months.", accent: "$1.5M of output. 15 days." },
+    { headline: "Describe it Monday. Ship it Friday.", accent: "21 agents. One operator. Zero hiring." },
+    { headline: "One prompt to a production sprint.", accent: "Architect, backend, frontend, security, QA — governed." },
+    { headline: "From spec to sprint in minutes.", accent: "Not another copilot. A full engineering team." },
   ],
   subheadline:
-    "21 agents ship production code — with architecture review, security audits, and QA on every merge.",
-  primaryCta: "Get Early Access",
-  secondaryCta: "See It Work",
+    "Kyros orchestrates 21 specialized agents across architecture, backend, frontend, security, and QA — with governance, memory, and structured review. Your first project is free.",
+  primaryCta: "Apply for Early Access",
+  secondaryCta: "See It Build",
 } as const;
 
 // ── Stats ─────────────────────────────────────────────────
 
 export const stats = [
-  { value: 21, suffix: "", label: "AI Agents", sublabel: "5 teams, governed workflow" },
-  { value: 150, suffix: "K+", label: "Lines Shipped", sublabel: "~$1.5M at agency rates" },
-  { value: 490, suffix: "+", label: "Git Commits", sublabel: "Every one reviewed and attributed" },
-  { value: 15, suffix: "", label: "Days", sublabel: "vs. 6+ months with an agency" },
+  { value: 21, suffix: "", label: "Specialized Agents", sublabel: "Architect to QA" },
+  { value: 150, suffix: "K+", label: "Lines Shipped", sublabel: "Production TypeScript" },
+  { value: 490, suffix: "+", label: "Reviewed Commits", sublabel: "Zero skipped reviews" },
+  { value: 15, suffix: "", label: "Days, Zero to Prod", sublabel: "Self-bootstrapped" },
 ] as const;
 
 // ── Problem Section ───────────────────────────────────────
 
 export const problem = {
-  headline: "One agent writes code. A team ships software.",
-  headlineAlt: "Writing code is the easy part.",
+  headline: "Code generation is solved. Software delivery isn't.",
+  headlineAlt: "AI can write code. It can't ship software. Yet.",
   headlineVariants: [
-    "Code generation is not software delivery.",
-    "AI assistance is not AI execution.",
-    "You don't need another code generator.",
+    "Every AI tool writes code. None of them ship software.",
+    "Writing code was never the bottleneck.",
+    "You don't have a coding problem. You have a delivery problem.",
   ],
   without: {
-    title: "One agent, no structure",
+    title: "Single-agent reality",
     points: [
-      "Monday: AI generates a login flow. Tuesday: it hallucinates a dependency. Wednesday: you're debugging code you didn't write.",
-      "No one reviews the architecture. No one writes tests. Six months later, you're rewriting everything.",
-      "Your agent doesn't remember yesterday. Every session starts cold — same questions, same mistakes.",
-      "You shipped fast. Your first security audit found 47 vulnerabilities.",
+      "Prompt. Paste. Fix hallucinations. Re-prompt. Ship anyway.",
+      "No architecture review. No test strategy. No one watching the codebase.",
+      "Context resets every session — every conversation starts from zero.",
+      "You're the QA team, the architect, and the project manager.",
     ],
   },
   with: {
-    title: "21 agents, governed workflow",
+    title: "Governed team execution",
     points: [
-      "Architect reviews every PR before merge. Security flags vulnerabilities before they ship.",
-      "Backend and frontend build in parallel. QA writes tests alongside every feature.",
-      "Three-tier memory: agents remember yesterday's decisions, last sprint's patterns, and your entire codebase.",
-      "490+ commits. Zero skipped reviews. Every line attributed and traceable.",
+      "Architect reviews every PR before it merges.",
+      "Backend and frontend build in parallel — like a real team.",
+      "QA writes tests. Security audits. Memory persists across sprints.",
+      "You describe the mission. 21 agents execute it.",
     ],
   },
 } as const;
@@ -69,21 +69,21 @@ export const problem = {
 export const howItWorks = [
   {
     step: "01",
-    title: "Define your team",
+    title: "Connect your repo",
     description:
-      "Select agents by role or use a preconfigured team. Set governance rules, connect your repo. Kyros maps your codebase before agents write a line.",
+      "Kyros maps your codebase — structure, dependencies, patterns. Agents understand what exists before writing a line. Choose your team or use the default 21-agent configuration.",
   },
   {
     step: "02",
-    title: "Set the mission",
+    title: "Describe the mission",
     description:
-      "Describe what you need — a feature, a migration, a full module. The Orchestrator breaks it into tasks, assigns agents, and dispatches. You approve or let it run.",
+      "A feature. A migration. A full module. The Orchestrator decomposes it into tasks, assigns agents by specialty, and dispatches. You approve the plan or let it run autonomously.",
   },
   {
     step: "03",
-    title: "Watch it ship",
+    title: "Review and merge",
     description:
-      "Agents build in parallel. Architect reviews. QA tests. Security audits. Track everything in real-time. Merge when ready.",
+      "Agents build in parallel. Architect reviews every PR. QA tests. Security audits. You see everything in real-time. Merge when satisfied.",
   },
 ] as const;
 
@@ -155,7 +155,7 @@ export const personas = [
 
 export const pricing = {
   headline: "Design Partner Program",
-  subheadline: "We're selecting 3-5 companies to co-develop the future of AI-native software delivery. Your first project is free.",
+  subheadline: "We're selecting 3-5 companies to co-develop with us. Your first project ships free — with direct access to the founding team.",
   tiers: [
     {
       name: "Design Partner",
@@ -208,6 +208,17 @@ export const pricing = {
   ],
 } as const;
 
+// ── Feature Grid ─────────────────────────────────────────
+
+export const featureGrid = [
+  { title: "Orchestration", description: "Decompose missions into tasks, dispatch across 21 agents, and manage sprint cadence — automatically.", icon: "Workflow" as const },
+  { title: "Observability", description: "Real-time dashboard with agent status, task progress, and full execution trace for every commit.", icon: "BarChart3" as const },
+  { title: "Memory", description: "Three-tier persistent memory: task history, active context, and learned patterns across sessions and sprints.", icon: "Brain" as const },
+  { title: "Triggers", description: "Event-driven automation — PR reviews, CI failures, and schedule-based dispatches fire without human intervention.", icon: "Zap" as const },
+  { title: "Governance", description: "Defined boundaries, review gates, and consensus protocols ensure every line ships with architect and security sign-off.", icon: "Shield" as const },
+  { title: "Intelligence", description: "Codebase knowledge graph, structural analysis, and model-agnostic inference power smarter agent decisions.", icon: "Sparkles" as const },
+] as const;
+
 // ── Competitive Matrix ────────────────────────────────────
 
 export const competitors = [
@@ -224,6 +235,15 @@ export const kyrosAdvantages = [
   { title: "Consensus Code Review", description: "490+ commits. Zero skipped reviews. Multi-agent consensus catches what single-agent workflows miss." },
   { title: "Self-Bootstrapped Proof", description: "150K lines in 15 days — ~$1.5M at agency rates. Kyros built itself. The product is its own stress test." },
   { title: "Persistent Knowledge Graph", description: "Three-tier memory across sessions, sprints, and projects. No cold starts. No repeated mistakes." },
+] as const;
+
+// ── Dashboard Callouts ───────────────────────────────────
+
+export const dashboardCallouts = [
+  { label: "Real-time agents", description: "Every agent streams status as it works", position: "top-left" as const },
+  { label: "Cost tracking", description: "Per-task token spend, always visible", position: "top-right" as const },
+  { label: "Sprint velocity", description: "Tasks completed vs. planned per sprint", position: "bottom-left" as const },
+  { label: "Review gate", description: "Architect + QA approve before merge", position: "bottom-right" as const },
 ] as const;
 
 // ── Trust Signals / Build Timeline ────────────────────────
@@ -277,15 +297,81 @@ export const founderQuote = {
 // ── Final CTA ─────────────────────────────────────────────
 
 export const finalCta = {
-  headline: "Your team is ready.",
-  headlineAlt: "Stop hiring. Start orchestrating.",
+  headline: "Stop hiring. Start orchestrating.",
+  headlineAlt: "Your next sprint starts in minutes.",
   headlineVariants: [
-    "Start building tonight.",
-    "Deploy your first sprint this week.",
-    "21 agents. Zero recruiting. Go.",
+    "One operator. 21 agents. Ship this week.",
+    "The team you need exists. Apply today.",
+    "Production code. Not prompts. Not prototypes.",
   ],
-  subheadline: "3-5 design partners. First project free. Apply now.",
-  inputPlaceholder: "your@email.com",
+  subheadline: "3-5 design partners. First project free. Direct access to the founding team.",
+  inputPlaceholder: "work@company.com",
   buttonText: "Apply for Early Access",
-  finePrint: "No credit card. No commitment. Just ship.",
+  finePrint: "No credit card. No commitment. Build something real.",
+} as const;
+
+// ── FAQ Items ────────────────────────────────────────────
+
+export const faqItems = [
+  {
+    question: "How is Kyros different from Devin, Cursor, or other AI coding tools?",
+    answer: "Those tools are single-agent copilots — they help one developer write code faster. Kyros is a governed multi-agent team: 21 specialized agents (architect, backend, frontend, security, QA) that execute full software delivery — from task decomposition to PR review. The difference is between a faster typist and a full engineering team.",
+  },
+  {
+    question: "What does '21 agents' actually mean? Are they just prompts?",
+    answer: "Each agent has a defined role, boundary constraints, persistent memory, and review authority. The Architect reviews every PR. Security audits access patterns. QA writes and runs tests. They coordinate through structured protocols — not chat. Think of it as 21 specialized roles with enforced governance, not 21 instances of the same model.",
+  },
+  {
+    question: "How do you ensure code quality at AI speed?",
+    answer: "Every commit passes through a multi-agent consensus review: Architect checks patterns and structure, Security audits for vulnerabilities, QA validates test coverage. 490+ commits reviewed with zero skipped reviews. The review gate is enforced by the system, not by discipline — agents cannot merge without approval.",
+  },
+  {
+    question: "What's the moat? Can't someone rebuild this with Claude or GPT?",
+    answer: "The model is a commodity — Kyros is model-agnostic. The moat is the orchestration layer: agent governance, persistent memory across sprints, codebase knowledge graphs, structured review protocols, and the operational playbook refined over 150K+ lines of self-bootstrapped code. Building an LLM wrapper takes days. Building a governed delivery system takes months.",
+  },
+  {
+    question: "Who owns the code Kyros produces?",
+    answer: "You do. 100% IP ownership transfers on delivery. Kyros is the builder, not the owner. Every line lives in your repo, your infrastructure, your Git history. No lock-in, no proprietary runtime, no dependency on our platform to run your software.",
+  },
+  {
+    question: "What's the pricing model and unit economics?",
+    answer: "Design partners build their first project free. Growth tier starts at $5K per project — roughly 100x cheaper than equivalent agency work. Enterprise gets custom annual contracts with SLA guarantees. Our cost scales with model inference (tokens), not headcount. As model costs drop 10x yearly, our margins improve without raising prices.",
+  },
+  {
+    question: "How do you handle complex, legacy, or enterprise codebases?",
+    answer: "Kyros maps your existing codebase into a knowledge graph — structure, dependencies, patterns, call chains. Agents understand what exists before writing a line. This isn't greenfield-only: we've built Kyros itself incrementally, refactoring and extending a 150K-line codebase across 490+ governed commits.",
+  },
+  {
+    question: "What's the go-to-market strategy?",
+    answer: "Phase 1: Design Partner program (3-5 companies, free first project) to validate across industries and prove delivery. Phase 2: Self-serve Growth tier for startups and SMBs. Phase 3: Enterprise with white-label option. We're building a platform, not a service — each project instance runs independently with its own agents, memory, and context.",
+  },
+] as const;
+
+// ── Footer Links ─────────────────────────────────────────
+
+export const footerLinks = {
+  product: [
+    { label: "Features", href: "/#features" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "Changelog", href: "#" },
+  ],
+  resources: [
+    { label: "Documentation", href: "#" },
+    { label: "API Reference", href: "#" },
+    { label: "Blog", href: "#" },
+    { label: "Status", href: "#" },
+  ],
+  company: [
+    { label: "About", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Contact", href: "#" },
+    { label: "Partners", href: "#" },
+  ],
+  legal: [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Service", href: "#" },
+    { label: "Cookie Policy", href: "#" },
+    { label: "Security", href: "#" },
+  ],
 } as const;

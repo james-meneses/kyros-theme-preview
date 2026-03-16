@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/nav/Sidebar";
 import { TopBar } from "@/components/nav/TopBar";
 import { MinimalNav } from "@/components/nav/MinimalNav";
 import { FloatingSettings } from "@/components/FloatingSettings";
+import { Footer } from "@/components/Footer";
 import { HeroPage } from "@/pages/HeroPage";
 import { PricingPage } from "@/pages/PricingPage";
 import { ComponentsPage } from "@/pages/ComponentsPage";
@@ -103,17 +104,21 @@ export default function App() {
       {navVariant === "sidebar" ? (
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 min-w-0 min-h-screen">
-            <AnimatedRoutes />
-          </main>
+          <div className="flex flex-col flex-1 min-w-0 min-h-screen">
+            <main className="flex-1">
+              <AnimatedRoutes />
+            </main>
+            <Footer />
+          </div>
         </div>
       ) : (
-        <>
+        <div className="flex flex-col min-h-screen">
           {navVariant === "topbar" ? <TopBar /> : <MinimalNav />}
-          <main className="min-h-screen">
+          <main className="flex-1">
             <AnimatedRoutes />
           </main>
-        </>
+          <Footer />
+        </div>
       )}
     </div>
   );

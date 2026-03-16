@@ -244,7 +244,7 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={transitions.spring}
-            className="absolute bottom-16 right-0 w-80 rounded-xl border p-4 space-y-4 max-h-[80vh] overflow-y-auto"
+            className="absolute bottom-16 right-0 w-[calc(100vw-3rem)] sm:w-80 rounded-xl border p-4 space-y-4 max-h-[80vh] overflow-y-auto"
             style={{
               backgroundColor: "var(--bg-card)",
               borderColor: "var(--border)",

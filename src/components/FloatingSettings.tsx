@@ -25,6 +25,40 @@ interface ThemePreset {
 
 const themePresets: ThemePreset[] = [
   {
+    id: "v3-refined-neon",
+    label: "v3: Refined Neon",
+    description: "Operator's pick — balanced depth, softer contrast",
+    swatch: "#CCFF00",
+    vars: {
+      "--bg": "#080808",
+      "--bg-secondary": "#101010",
+      "--bg-card": "#181818",
+      "--border": "#1A1A1A",
+      "--border-accent": "#CCFF0033",
+      "--foreground": "#E7E7E7",
+      "--foreground-muted": "#999999",
+      "--primary": "#CCFF00",
+      "--primary-foreground": "#050505",
+      "--secondary": "#6366F1",
+      "--accent": "#CCFF00",
+      "--accent-muted": "#CCFF0016",
+      "--muted": "#181818",
+      "--muted-foreground": "#6C6C6C",
+      "--shadow": "0 0 18px #CCFF000e",
+      // shadcn bridges
+      "--background": "#080808",
+      "--card": "#181818",
+      "--card-foreground": "#E7E7E7",
+      "--secondary-foreground": "#FAFAFA",
+      "--accent-foreground": "#FAFAFA",
+      "--input": "#1A1A1A",
+      "--ring": "#CCFF00",
+      "--destructive": "#EF4444",
+      "--popover": "#181818",
+      "--popover-foreground": "#E7E7E7",
+    },
+  },
+  {
     id: "v0-tactical-neon",
     label: "v0: Tactical Neon",
     description: "Original neon lime — aggressive, distinctive",
@@ -59,60 +93,60 @@ const themePresets: ThemePreset[] = [
     },
   },
   {
-    id: "v1-cosmic-emerald",
-    label: "v1: Cosmic Emerald",
-    description: "Agent consensus — deep teal + emerald accent",
-    swatch: "#0D9488",
+    id: "v1-acid-lime",
+    label: "v1: Acid Lime",
+    description: "Electric lime + deep matrix — Instagram-inspired",
+    swatch: "#B4FF00",
     vars: {
-      "--bg": "#0A0A0A",
-      "--bg-secondary": "#111111",
-      "--bg-card": "#151515",
-      "--border": "#262626",
-      "--border-accent": "#0D948833",
-      "--foreground": "#FAFAFA",
-      "--foreground-muted": "#A1A1AA",
-      "--primary": "#0D9488",
-      "--primary-foreground": "#FAFAFA",
+      "--bg": "#060C09",
+      "--bg-secondary": "#0B1A12",
+      "--bg-card": "#0F2018",
+      "--border": "#1D3828",
+      "--border-accent": "#B4FF0033",
+      "--foreground": "#F5FFF0",
+      "--foreground-muted": "#8AAA90",
+      "--primary": "#B4FF00",
+      "--primary-foreground": "#060C09",
       "--secondary": "#6366F1",
-      "--accent": "#10B981",
-      "--accent-muted": "#10B98120",
-      "--muted": "#1A1A1A",
-      "--muted-foreground": "#71717A",
-      "--shadow": "0 0 24px #0D948812",
+      "--accent": "#B4FF00",
+      "--accent-muted": "#B4FF0020",
+      "--muted": "#0B1A12",
+      "--muted-foreground": "#5A7A64",
+      "--shadow": "0 0 24px #B4FF0012",
       // shadcn bridges
-      "--background": "#0A0A0A",
-      "--card": "#151515",
-      "--card-foreground": "#FAFAFA",
+      "--background": "#060C09",
+      "--card": "#0F2018",
+      "--card-foreground": "#F5FFF0",
       "--secondary-foreground": "#FAFAFA",
       "--accent-foreground": "#FAFAFA",
-      "--input": "#262626",
-      "--ring": "#10B981",
+      "--input": "#1D3828",
+      "--ring": "#B4FF00",
       "--destructive": "#EF4444",
-      "--popover": "#151515",
-      "--popover-foreground": "#FAFAFA",
+      "--popover": "#0F2018",
+      "--popover-foreground": "#F5FFF0",
     },
   },
   {
-    id: "v2-emerald-bright",
-    label: "v2: Emerald Bright",
-    description: "Warmer emerald — Supabase-inspired, premium",
-    swatch: "#34D399",
+    id: "v2-true-green",
+    label: "v2: True Green",
+    description: "Warm pure green — vibrant, alive, not teal",
+    swatch: "#4ADE80",
     vars: {
       "--bg": "#0A0A0A",
       "--bg-secondary": "#111111",
       "--bg-card": "#161616",
       "--border": "#272727",
-      "--border-accent": "#34D39933",
+      "--border-accent": "#4ADE8033",
       "--foreground": "#FAFAFA",
       "--foreground-muted": "#A1A1AA",
-      "--primary": "#34D399",
+      "--primary": "#4ADE80",
       "--primary-foreground": "#052E16",
       "--secondary": "#6366F1",
-      "--accent": "#34D399",
-      "--accent-muted": "#34D39920",
+      "--accent": "#4ADE80",
+      "--accent-muted": "#4ADE8020",
       "--muted": "#1C1C1C",
       "--muted-foreground": "#71717A",
-      "--shadow": "0 0 24px #34D39912",
+      "--shadow": "0 0 24px #4ADE8012",
       // shadcn bridges
       "--background": "#0A0A0A",
       "--card": "#161616",
@@ -120,13 +154,43 @@ const themePresets: ThemePreset[] = [
       "--secondary-foreground": "#FAFAFA",
       "--accent-foreground": "#FAFAFA",
       "--input": "#272727",
-      "--ring": "#34D399",
+      "--ring": "#4ADE80",
       "--destructive": "#EF4444",
       "--popover": "#161616",
       "--popover-foreground": "#FAFAFA",
     },
   },
 ];
+
+// ── Accent Color Swatches ─────────────────────────────────
+// Primary: greens + Instagram color combos (Deep Matrix, Acid Lime)
+// Secondary: indigo family + combo colors
+
+interface ColorSwatch {
+  hex: string;
+  label: string;
+}
+
+const primarySwatches: ColorSwatch[] = [
+  { hex: "#CCFF00", label: "Neon Lime" },
+  { hex: "#B4FF00", label: "Acid Lime" },
+  { hex: "#4ADE80", label: "Green-400" },
+  { hex: "#34D399", label: "Emerald-400" },
+  { hex: "#22C55E", label: "Green-500" },
+  { hex: "#00FF41", label: "Matrix" },
+  { hex: "#0B1A12", label: "Deep Matrix" },
+];
+
+const secondarySwatches: ColorSwatch[] = [
+  { hex: "#6366F1", label: "Indigo-500" },
+  { hex: "#818CF8", label: "Indigo-400" },
+  { hex: "#4F46E5", label: "Indigo-600" },
+  { hex: "#A5B4FC", label: "Indigo-300" },
+  { hex: "#0B1A12", label: "Deep Matrix" },
+  { hex: "#B4FF00", label: "Acid Lime" },
+];
+
+// ─────────────────────────────────────────────────────────
 
 const headingFonts = [
   { label: "Space Grotesk", value: "'Space Grotesk', system-ui, sans-serif" },
@@ -194,12 +258,74 @@ function SelectControl({
   );
 }
 
+function SwatchRow({
+  label,
+  swatches,
+  activeHex,
+  onSelect,
+}: {
+  label: string;
+  swatches: ColorSwatch[];
+  activeHex: string;
+  onSelect: (hex: string) => void;
+}) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+          {label}
+        </label>
+        <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+          {activeHex.toUpperCase()}
+        </span>
+      </div>
+      <div className="flex gap-1.5 flex-wrap">
+        {swatches.map((swatch) => {
+          const isActive = activeHex.toLowerCase() === swatch.hex.toLowerCase();
+          return (
+            <button
+              key={swatch.hex}
+              onClick={() => onSelect(swatch.hex)}
+              title={`${swatch.label} — ${swatch.hex}`}
+              className="rounded-full border-2 transition-all cursor-pointer shrink-0"
+              style={{
+                width: "1.375rem",
+                height: "1.375rem",
+                backgroundColor: swatch.hex,
+                borderColor: isActive ? "var(--foreground)" : "rgba(255,255,255,0.12)",
+                boxShadow: isActive ? `0 0 10px ${swatch.hex}80` : undefined,
+                transform: isActive ? "scale(1.15)" : undefined,
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSettingsProps) {
   const [open, setOpen] = useState(false);
   const [activePreset, setActivePreset] = useState(themePresets[0].id);
+  const [activePrimaryColor, setActivePrimaryColor] = useState(themePresets[0].vars["--primary"]);
+  const [activeSecondaryColor, setActiveSecondaryColor] = useState(themePresets[0].vars["--secondary"]);
   const [headingFont, setHeadingFont] = useState(headingFonts[0].value);
   const [bodyFont, setBodyFont] = useState(bodyFonts[0].value);
   const [radius, setRadius] = useState(8);
+  // Muted foreground brightness: 0x66 = 102 (v0 default). Range 80–200.
+  const [mutedFgLevel, setMutedFgLevel] = useState(102);
+  // Background depth: channel value for --bg. v0 default = 0x05 = 5. Range 0–30.
+  const [bgDepth, setBgDepth] = useState(5);
+  // Border brightness: channel value for --border. v0 default = 0x25 = 37. Range 15–70.
+  const [borderLevel, setBorderLevel] = useState(37);
+  // Foreground contrast: channel value for --foreground. v0 default = 0xFA = 250. Range 0xC0 (192)–0xFF (255).
+  const [fgLevel, setFgLevel] = useState(250);
+  // Accent-muted alpha: v0 default = 0x20 = 32. Range 0x08 (8)–0x40 (64).
+  const [accentIntensity, setAccentIntensity] = useState(0x20);
+  // Shadow blur in px: v0 default = 24. Range 0–48.
+  const [shadowIntensity, setShadowIntensity] = useState(24);
+  // Glow: accent glow on cards/borders.
+  const [glowEnabled, setGlowEnabled] = useState(true);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Close on outside click
@@ -218,6 +344,53 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     if (!preset) return;
     setActivePreset(presetId);
     applyPreset(preset);
+    setActivePrimaryColor(preset.vars["--primary"]);
+    setActiveSecondaryColor(preset.vars["--secondary"]);
+    const mfHex = preset.vars["--muted-foreground"].slice(1, 3);
+    setMutedFgLevel(parseInt(mfHex, 16));
+    const bgHex = preset.vars["--bg"].slice(1, 3);
+    setBgDepth(parseInt(bgHex, 16));
+    const borderHex = preset.vars["--border"].slice(1, 3);
+    setBorderLevel(parseInt(borderHex, 16));
+    // Sync foreground contrast slider (R channel)
+    const fgHex = preset.vars["--foreground"].slice(1, 3);
+    setFgLevel(parseInt(fgHex, 16));
+    // Sync accent intensity slider (last 2 hex chars of --accent-muted)
+    const accentMuted = preset.vars["--accent-muted"] ?? "";
+    const accentAlpha = accentMuted.length >= 9 ? parseInt(accentMuted.slice(-2), 16) : 0x20;
+    setAccentIntensity(isNaN(accentAlpha) ? 0x20 : accentAlpha);
+    // Sync shadow intensity slider (blur px from --shadow)
+    const shadowVal = preset.vars["--shadow"] ?? "";
+    const shadowMatch = shadowVal.match(/(\d+)px/);
+    setShadowIntensity(shadowMatch ? parseInt(shadowMatch[1]) : 24);
+    // Glow always enabled on preset switch
+    setGlowEnabled(true);
+  }
+
+  function applyPrimaryColor(hex: string) {
+    setRootVar("--primary", hex);
+    setRootVar("--accent", hex);
+    setRootVar("--ring", hex);
+    const accentAlphaHex = accentIntensity.toString(16).padStart(2, "0");
+    setRootVar("--accent-muted", hex + accentAlphaHex);
+    if (glowEnabled) {
+      setRootVar("--border-accent", hex + "33");
+      if (shadowIntensity > 0) {
+        const shadowAlpha = Math.round(shadowIntensity * 0.75).toString(16).padStart(2, "0");
+        setRootVar("--shadow", `0 0 ${shadowIntensity}px ${hex}${shadowAlpha}`);
+      } else {
+        setRootVar("--shadow", "none");
+      }
+    } else {
+      setRootVar("--border-accent", "transparent");
+      setRootVar("--shadow", "none");
+    }
+    setActivePrimaryColor(hex);
+  }
+
+  function applySecondaryColor(hex: string) {
+    setRootVar("--secondary", hex);
+    setActiveSecondaryColor(hex);
   }
 
   function updateHeadingFont(value: string) {
@@ -234,6 +407,82 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     setRadius(value);
     setRootVar("--radius", `${value / 16}rem`);
   }
+
+  function updateMutedFg(level: number) {
+    const h = level.toString(16).padStart(2, "0");
+    setRootVar("--muted-foreground", `#${h}${h}${h}`);
+    setMutedFgLevel(level);
+  }
+
+  function updateBgDepth(level: number) {
+    setBgDepth(level);
+    const toHex = (v: number) => Math.min(255, Math.max(0, v)).toString(16).padStart(2, "0");
+    const bg = `#${toHex(level)}${toHex(level)}${toHex(level)}`;
+    const bgSec = `#${toHex(level + 8)}${toHex(level + 8)}${toHex(level + 8)}`;
+    const bgCard = `#${toHex(level + 16)}${toHex(level + 16)}${toHex(level + 16)}`;
+    setRootVar("--bg", bg);
+    setRootVar("--bg-secondary", bgSec);
+    setRootVar("--bg-card", bgCard);
+    // shadcn bridges
+    setRootVar("--background", bg);
+    setRootVar("--card", bgCard);
+    setRootVar("--muted", bgCard);
+    // Surface elevation tokens
+    setRootVar("--surface-0", bg);
+    setRootVar("--surface-1", bgSec);
+    setRootVar("--surface-2", bgCard);
+  }
+
+  function updateBorderLevel(level: number) {
+    setBorderLevel(level);
+    const h = level.toString(16).padStart(2, "0");
+    const borderColor = `#${h}${h}${h}`;
+    setRootVar("--border", borderColor);
+    setRootVar("--input", borderColor);
+  }
+
+  function updateFgContrast(level: number) {
+    const h = level.toString(16).padStart(2, "0").toUpperCase();
+    const hex = `#${h}${h}${h}`;
+    setRootVar("--foreground", hex);
+    setRootVar("--card-foreground", hex);
+    setRootVar("--popover-foreground", hex);
+    setFgLevel(level);
+  }
+
+  function updateAccentIntensity(alpha: number) {
+    const h = alpha.toString(16).padStart(2, "0");
+    setRootVar("--accent-muted", `${activePrimaryColor}${h}`);
+    setAccentIntensity(alpha);
+  }
+
+  function updateShadowIntensity(value: number) {
+    setShadowIntensity(value);
+    if (!glowEnabled || value === 0) {
+      setRootVar("--shadow", "none");
+    } else {
+      const alphaHex = Math.round(value * 0.75).toString(16).padStart(2, "0");
+      setRootVar("--shadow", `0 0 ${value}px ${activePrimaryColor}${alphaHex}`);
+    }
+  }
+
+  function toggleGlow(enabled: boolean) {
+    setGlowEnabled(enabled);
+    if (enabled) {
+      setRootVar("--border-accent", activePrimaryColor + "33");
+      if (shadowIntensity > 0) {
+        const alphaHex = Math.round(shadowIntensity * 0.75).toString(16).padStart(2, "0");
+        setRootVar("--shadow", `0 0 ${shadowIntensity}px ${activePrimaryColor}${alphaHex}`);
+      }
+    } else {
+      setRootVar("--border-accent", "transparent");
+      setRootVar("--shadow", "none");
+    }
+  }
+
+  const mutedFgHex = `#${mutedFgLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}`;
+  const fgHex = `#${fgLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}`;
+  const accentAlphaDisplay = accentIntensity.toString(16).padStart(2, "0").toUpperCase();
 
   return (
     <div className="fixed bottom-6 right-6 z-[100]" ref={panelRef}>
@@ -303,6 +552,206 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* ── Primary Color ── */}
+            <SwatchRow
+              label="Primary Color"
+              swatches={primarySwatches}
+              activeHex={activePrimaryColor}
+              onSelect={applyPrimaryColor}
+            />
+
+            {/* ── Secondary Color ── */}
+            <SwatchRow
+              label="Secondary Color"
+              swatches={secondarySwatches}
+              activeHex={activeSecondaryColor}
+              onSelect={applySecondaryColor}
+            />
+
+            {/* ── Muted Text ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Muted Text
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  {mutedFgHex}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={80}
+                max={200}
+                value={mutedFgLevel}
+                onChange={(e) => updateMutedFg(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((mutedFgLevel - 80) / 120) * 100}%, var(--border) ${((mutedFgLevel - 80) / 120) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>subtle</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>crisp</span>
+              </div>
+            </div>
+
+            {/* ── Background Depth ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Background Depth
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  #{bgDepth.toString(16).padStart(2, "0").toUpperCase().repeat(3)}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={30}
+                value={bgDepth}
+                onChange={(e) => updateBgDepth(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${(bgDepth / 30) * 100}%, var(--border) ${(bgDepth / 30) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>deep</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>lifted</span>
+              </div>
+            </div>
+
+            {/* ── Border Opacity ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Border Opacity
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  #{borderLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={15}
+                max={70}
+                value={borderLevel}
+                onChange={(e) => updateBorderLevel(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((borderLevel - 15) / 55) * 100}%, var(--border) ${((borderLevel - 15) / 55) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>ghost</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>solid</span>
+              </div>
+            </div>
+
+            {/* ── Foreground Contrast ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Foreground Contrast
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  {fgHex}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0xC0}
+                max={0xFF}
+                value={fgLevel}
+                onChange={(e) => updateFgContrast(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((fgLevel - 0xC0) / (0xFF - 0xC0)) * 100}%, var(--border) ${((fgLevel - 0xC0) / (0xFF - 0xC0)) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>dim</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>bright</span>
+              </div>
+            </div>
+
+            {/* ── Accent Intensity ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Accent Intensity
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  0x{accentAlphaDisplay}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0x08}
+                max={0x40}
+                value={accentIntensity}
+                onChange={(e) => updateAccentIntensity(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((accentIntensity - 0x08) / (0x40 - 0x08)) * 100}%, var(--border) ${((accentIntensity - 0x08) / (0x40 - 0x08)) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>subtle</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>vivid</span>
+              </div>
+            </div>
+
+            {/* ── Shadow Intensity ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Shadow Intensity
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  {shadowIntensity}px
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={48}
+                value={shadowIntensity}
+                onChange={(e) => updateShadowIntensity(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${(shadowIntensity / 48) * 100}%, var(--border) ${(shadowIntensity / 48) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>none</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>intense</span>
+              </div>
+            </div>
+
+            {/* ── Glow Toggle ── */}
+            <div className="flex items-center justify-between">
+              <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                Accent Glow
+              </label>
+              <button
+                onClick={() => toggleGlow(!glowEnabled)}
+                className="relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: glowEnabled ? "var(--primary)" : "var(--border)",
+                }}
+              >
+                <span
+                  className="inline-block h-3.5 w-3.5 rounded-full transition-transform"
+                  style={{
+                    backgroundColor: glowEnabled ? "var(--primary-foreground)" : "var(--foreground-muted)",
+                    transform: glowEnabled ? "translateX(1.25rem)" : "translateX(0.25rem)",
+                  }}
+                />
+              </button>
             </div>
 
             {/* Separator */}

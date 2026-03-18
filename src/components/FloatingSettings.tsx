@@ -128,6 +128,36 @@ const themePresets: ThemePreset[] = [
   },
 ];
 
+// ── Accent Color Swatches ─────────────────────────────────
+// Primary: greens + Instagram color combos (Deep Matrix, Acid Lime)
+// Secondary: indigo family + combo colors
+
+interface ColorSwatch {
+  hex: string;
+  label: string;
+}
+
+const primarySwatches: ColorSwatch[] = [
+  { hex: "#CCFF00", label: "Neon Lime" },
+  { hex: "#B4FF00", label: "Acid Lime" },
+  { hex: "#4ADE80", label: "Green-400" },
+  { hex: "#34D399", label: "Emerald-400" },
+  { hex: "#22C55E", label: "Green-500" },
+  { hex: "#00FF41", label: "Matrix" },
+  { hex: "#0B1A12", label: "Deep Matrix" },
+];
+
+const secondarySwatches: ColorSwatch[] = [
+  { hex: "#6366F1", label: "Indigo-500" },
+  { hex: "#818CF8", label: "Indigo-400" },
+  { hex: "#4F46E5", label: "Indigo-600" },
+  { hex: "#A5B4FC", label: "Indigo-300" },
+  { hex: "#0B1A12", label: "Deep Matrix" },
+  { hex: "#B4FF00", label: "Acid Lime" },
+];
+
+// ─────────────────────────────────────────────────────────
+
 const headingFonts = [
   { label: "Space Grotesk", value: "'Space Grotesk', system-ui, sans-serif" },
   { label: "Geist", value: "'Geist Variable', system-ui, sans-serif" },
@@ -194,12 +224,62 @@ function SelectControl({
   );
 }
 
+function SwatchRow({
+  label,
+  swatches,
+  activeHex,
+  onSelect,
+}: {
+  label: string;
+  swatches: ColorSwatch[];
+  activeHex: string;
+  onSelect: (hex: string) => void;
+}) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+          {label}
+        </label>
+        <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+          {activeHex.toUpperCase()}
+        </span>
+      </div>
+      <div className="flex gap-1.5 flex-wrap">
+        {swatches.map((swatch) => {
+          const isActive = activeHex.toLowerCase() === swatch.hex.toLowerCase();
+          return (
+            <button
+              key={swatch.hex}
+              onClick={() => onSelect(swatch.hex)}
+              title={`${swatch.label} — ${swatch.hex}`}
+              className="rounded-full border-2 transition-all cursor-pointer shrink-0"
+              style={{
+                width: "1.375rem",
+                height: "1.375rem",
+                backgroundColor: swatch.hex,
+                borderColor: isActive ? "var(--foreground)" : "rgba(255,255,255,0.12)",
+                boxShadow: isActive ? `0 0 10px ${swatch.hex}80` : undefined,
+                transform: isActive ? "scale(1.15)" : undefined,
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSettingsProps) {
   const [open, setOpen] = useState(false);
   const [activePreset, setActivePreset] = useState(themePresets[0].id);
+  const [activePrimaryColor, setActivePrimaryColor] = useState(themePresets[0].vars["--primary"]);
+  const [activeSecondaryColor, setActiveSecondaryColor] = useState(themePresets[0].vars["--secondary"]);
   const [headingFont, setHeadingFont] = useState(headingFonts[0].value);
   const [bodyFont, setBodyFont] = useState(bodyFonts[0].value);
   const [radius, setRadius] = useState(8);
+  // Muted foreground brightness: 0x66 = 102 (v0 default). Range 80–200.
+  const [mutedFgLevel, setMutedFgLevel] = useState(102);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Close on outside click
@@ -218,6 +298,25 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     if (!preset) return;
     setActivePreset(presetId);
     applyPreset(preset);
+    setActivePrimaryColor(preset.vars["--primary"]);
+    setActiveSecondaryColor(preset.vars["--secondary"]);
+    const mfHex = preset.vars["--muted-foreground"].slice(1, 3);
+    setMutedFgLevel(parseInt(mfHex, 16));
+  }
+
+  function applyPrimaryColor(hex: string) {
+    setRootVar("--primary", hex);
+    setRootVar("--accent", hex);
+    setRootVar("--ring", hex);
+    setRootVar("--border-accent", hex + "33");
+    setRootVar("--accent-muted", hex + "20");
+    setRootVar("--shadow", `0 0 24px ${hex}12`);
+    setActivePrimaryColor(hex);
+  }
+
+  function applySecondaryColor(hex: string) {
+    setRootVar("--secondary", hex);
+    setActiveSecondaryColor(hex);
   }
 
   function updateHeadingFont(value: string) {
@@ -234,6 +333,14 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     setRadius(value);
     setRootVar("--radius", `${value / 16}rem`);
   }
+
+  function updateMutedFg(level: number) {
+    const h = level.toString(16).padStart(2, "0");
+    setRootVar("--muted-foreground", `#${h}${h}${h}`);
+    setMutedFgLevel(level);
+  }
+
+  const mutedFgHex = `#${mutedFgLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-[100]" ref={panelRef}>
@@ -302,6 +409,49 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
                     </div>
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* ── Primary Color ── */}
+            <SwatchRow
+              label="Primary Color"
+              swatches={primarySwatches}
+              activeHex={activePrimaryColor}
+              onSelect={applyPrimaryColor}
+            />
+
+            {/* ── Secondary Color ── */}
+            <SwatchRow
+              label="Secondary Color"
+              swatches={secondarySwatches}
+              activeHex={activeSecondaryColor}
+              onSelect={applySecondaryColor}
+            />
+
+            {/* ── Muted Text ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Muted Text
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  {mutedFgHex}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={80}
+                max={200}
+                value={mutedFgLevel}
+                onChange={(e) => updateMutedFg(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((mutedFgLevel - 80) / 120) * 100}%, var(--border) ${((mutedFgLevel - 80) / 120) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>subtle</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>crisp</span>
               </div>
             </div>
 

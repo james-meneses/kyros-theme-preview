@@ -144,7 +144,7 @@ export function DashboardPage() {
             <Card className="h-full">
               <CardContent>
                 <div className="flex items-center justify-between mb-2">
-                  <s.icon className="h-4 w-4" style={{ color: "var(--primary)" }} strokeWidth={1.5} />
+                  <s.icon className="h-4 w-4" style={{ color: "var(--foreground)" }} strokeWidth={1.5} />
                   <span className="text-[10px] font-mono" style={{ color: s.positive ? "#22C55E" : "#EF4444" }}>
                     {s.change}
                   </span>

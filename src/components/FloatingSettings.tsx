@@ -280,6 +280,18 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
   const [radius, setRadius] = useState(8);
   // Muted foreground brightness: 0x66 = 102 (v0 default). Range 80–200.
   const [mutedFgLevel, setMutedFgLevel] = useState(102);
+  // Background depth: channel value for --bg. v0 default = 0x05 = 5. Range 0–30.
+  const [bgDepth, setBgDepth] = useState(5);
+  // Border brightness: channel value for --border. v0 default = 0x25 = 37. Range 15–70.
+  const [borderLevel, setBorderLevel] = useState(37);
+  // Foreground contrast: channel value for --foreground. v0 default = 0xFA = 250. Range 0xC0 (192)–0xFF (255).
+  const [fgLevel, setFgLevel] = useState(250);
+  // Accent-muted alpha: v0 default = 0x20 = 32. Range 0x08 (8)–0x40 (64).
+  const [accentIntensity, setAccentIntensity] = useState(0x20);
+  // Shadow blur in px: v0 default = 24. Range 0–48.
+  const [shadowIntensity, setShadowIntensity] = useState(24);
+  // Glow: accent glow on cards/borders.
+  const [glowEnabled, setGlowEnabled] = useState(true);
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Close on outside click
@@ -302,15 +314,43 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     setActiveSecondaryColor(preset.vars["--secondary"]);
     const mfHex = preset.vars["--muted-foreground"].slice(1, 3);
     setMutedFgLevel(parseInt(mfHex, 16));
+    const bgHex = preset.vars["--bg"].slice(1, 3);
+    setBgDepth(parseInt(bgHex, 16));
+    const borderHex = preset.vars["--border"].slice(1, 3);
+    setBorderLevel(parseInt(borderHex, 16));
+    // Sync foreground contrast slider (R channel)
+    const fgHex = preset.vars["--foreground"].slice(1, 3);
+    setFgLevel(parseInt(fgHex, 16));
+    // Sync accent intensity slider (last 2 hex chars of --accent-muted)
+    const accentMuted = preset.vars["--accent-muted"] ?? "";
+    const accentAlpha = accentMuted.length >= 9 ? parseInt(accentMuted.slice(-2), 16) : 0x20;
+    setAccentIntensity(isNaN(accentAlpha) ? 0x20 : accentAlpha);
+    // Sync shadow intensity slider (blur px from --shadow)
+    const shadowVal = preset.vars["--shadow"] ?? "";
+    const shadowMatch = shadowVal.match(/(\d+)px/);
+    setShadowIntensity(shadowMatch ? parseInt(shadowMatch[1]) : 24);
+    // Glow always enabled on preset switch
+    setGlowEnabled(true);
   }
 
   function applyPrimaryColor(hex: string) {
     setRootVar("--primary", hex);
     setRootVar("--accent", hex);
     setRootVar("--ring", hex);
-    setRootVar("--border-accent", hex + "33");
-    setRootVar("--accent-muted", hex + "20");
-    setRootVar("--shadow", `0 0 24px ${hex}12`);
+    const accentAlphaHex = accentIntensity.toString(16).padStart(2, "0");
+    setRootVar("--accent-muted", hex + accentAlphaHex);
+    if (glowEnabled) {
+      setRootVar("--border-accent", hex + "33");
+      if (shadowIntensity > 0) {
+        const shadowAlpha = Math.round(shadowIntensity * 0.75).toString(16).padStart(2, "0");
+        setRootVar("--shadow", `0 0 ${shadowIntensity}px ${hex}${shadowAlpha}`);
+      } else {
+        setRootVar("--shadow", "none");
+      }
+    } else {
+      setRootVar("--border-accent", "transparent");
+      setRootVar("--shadow", "none");
+    }
     setActivePrimaryColor(hex);
   }
 
@@ -340,7 +380,75 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     setMutedFgLevel(level);
   }
 
+  function updateBgDepth(level: number) {
+    setBgDepth(level);
+    const toHex = (v: number) => Math.min(255, Math.max(0, v)).toString(16).padStart(2, "0");
+    const bg = `#${toHex(level)}${toHex(level)}${toHex(level)}`;
+    const bgSec = `#${toHex(level + 8)}${toHex(level + 8)}${toHex(level + 8)}`;
+    const bgCard = `#${toHex(level + 16)}${toHex(level + 16)}${toHex(level + 16)}`;
+    setRootVar("--bg", bg);
+    setRootVar("--bg-secondary", bgSec);
+    setRootVar("--bg-card", bgCard);
+    // shadcn bridges
+    setRootVar("--background", bg);
+    setRootVar("--card", bgCard);
+    setRootVar("--muted", bgCard);
+    // Surface elevation tokens
+    setRootVar("--surface-0", bg);
+    setRootVar("--surface-1", bgSec);
+    setRootVar("--surface-2", bgCard);
+  }
+
+  function updateBorderLevel(level: number) {
+    setBorderLevel(level);
+    const h = level.toString(16).padStart(2, "0");
+    const borderColor = `#${h}${h}${h}`;
+    setRootVar("--border", borderColor);
+    setRootVar("--input", borderColor);
+  }
+
+  function updateFgContrast(level: number) {
+    const h = level.toString(16).padStart(2, "0").toUpperCase();
+    const hex = `#${h}${h}${h}`;
+    setRootVar("--foreground", hex);
+    setRootVar("--card-foreground", hex);
+    setRootVar("--popover-foreground", hex);
+    setFgLevel(level);
+  }
+
+  function updateAccentIntensity(alpha: number) {
+    const h = alpha.toString(16).padStart(2, "0");
+    setRootVar("--accent-muted", `${activePrimaryColor}${h}`);
+    setAccentIntensity(alpha);
+  }
+
+  function updateShadowIntensity(value: number) {
+    setShadowIntensity(value);
+    if (!glowEnabled || value === 0) {
+      setRootVar("--shadow", "none");
+    } else {
+      const alphaHex = Math.round(value * 0.75).toString(16).padStart(2, "0");
+      setRootVar("--shadow", `0 0 ${value}px ${activePrimaryColor}${alphaHex}`);
+    }
+  }
+
+  function toggleGlow(enabled: boolean) {
+    setGlowEnabled(enabled);
+    if (enabled) {
+      setRootVar("--border-accent", activePrimaryColor + "33");
+      if (shadowIntensity > 0) {
+        const alphaHex = Math.round(shadowIntensity * 0.75).toString(16).padStart(2, "0");
+        setRootVar("--shadow", `0 0 ${shadowIntensity}px ${activePrimaryColor}${alphaHex}`);
+      }
+    } else {
+      setRootVar("--border-accent", "transparent");
+      setRootVar("--shadow", "none");
+    }
+  }
+
   const mutedFgHex = `#${mutedFgLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}`;
+  const fgHex = `#${fgLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}`;
+  const accentAlphaDisplay = accentIntensity.toString(16).padStart(2, "0").toUpperCase();
 
   return (
     <div className="fixed bottom-6 right-6 z-[100]" ref={panelRef}>
@@ -453,6 +561,163 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
                 <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>subtle</span>
                 <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>crisp</span>
               </div>
+            </div>
+
+            {/* ── Background Depth ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Background Depth
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  #{bgDepth.toString(16).padStart(2, "0").toUpperCase().repeat(3)}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={30}
+                value={bgDepth}
+                onChange={(e) => updateBgDepth(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${(bgDepth / 30) * 100}%, var(--border) ${(bgDepth / 30) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>deep</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>lifted</span>
+              </div>
+            </div>
+
+            {/* ── Border Opacity ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Border Opacity
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  #{borderLevel.toString(16).padStart(2, "0").toUpperCase().repeat(3)}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={15}
+                max={70}
+                value={borderLevel}
+                onChange={(e) => updateBorderLevel(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((borderLevel - 15) / 55) * 100}%, var(--border) ${((borderLevel - 15) / 55) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>ghost</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>solid</span>
+              </div>
+            </div>
+
+            {/* ── Foreground Contrast ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Foreground Contrast
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  {fgHex}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0xC0}
+                max={0xFF}
+                value={fgLevel}
+                onChange={(e) => updateFgContrast(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((fgLevel - 0xC0) / (0xFF - 0xC0)) * 100}%, var(--border) ${((fgLevel - 0xC0) / (0xFF - 0xC0)) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>dim</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>bright</span>
+              </div>
+            </div>
+
+            {/* ── Accent Intensity ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Accent Intensity
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  0x{accentAlphaDisplay}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0x08}
+                max={0x40}
+                value={accentIntensity}
+                onChange={(e) => updateAccentIntensity(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${((accentIntensity - 0x08) / (0x40 - 0x08)) * 100}%, var(--border) ${((accentIntensity - 0x08) / (0x40 - 0x08)) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>subtle</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>vivid</span>
+              </div>
+            </div>
+
+            {/* ── Shadow Intensity ── */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                  Shadow Intensity
+                </label>
+                <span className="text-[10px] font-mono" style={{ color: "var(--primary)" }}>
+                  {shadowIntensity}px
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={48}
+                value={shadowIntensity}
+                onChange={(e) => updateShadowIntensity(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--primary) ${(shadowIntensity / 48) * 100}%, var(--border) ${(shadowIntensity / 48) * 100}%)`,
+                }}
+              />
+              <div className="flex justify-between mt-1">
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>none</span>
+                <span className="text-[9px] font-mono" style={{ color: "var(--muted-foreground)" }}>intense</span>
+              </div>
+            </div>
+
+            {/* ── Glow Toggle ── */}
+            <div className="flex items-center justify-between">
+              <label className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "var(--foreground-muted)" }}>
+                Accent Glow
+              </label>
+              <button
+                onClick={() => toggleGlow(!glowEnabled)}
+                className="relative inline-flex h-5 w-9 items-center rounded-full transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: glowEnabled ? "var(--primary)" : "var(--border)",
+                }}
+              >
+                <span
+                  className="inline-block h-3.5 w-3.5 rounded-full transition-transform"
+                  style={{
+                    backgroundColor: glowEnabled ? "var(--primary-foreground)" : "var(--foreground-muted)",
+                    transform: glowEnabled ? "translateX(1.25rem)" : "translateX(0.25rem)",
+                  }}
+                />
+              </button>
             </div>
 
             {/* Separator */}

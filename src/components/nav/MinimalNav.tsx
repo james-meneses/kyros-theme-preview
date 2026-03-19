@@ -9,6 +9,7 @@ const links = [
   { to: "/dashboard", label: "Dashboard" },
   { to: "/components", label: "Components" },
   { to: "/typography", label: "Typography" },
+  { to: "/ceo-dashboard", label: "CEO Dash" },
 ];
 
 export function MinimalNav() {

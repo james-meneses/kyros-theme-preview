@@ -16,6 +16,7 @@ const links = [
   { to: "/dashboard", label: "Dashboard", icon: BarChart3 },
   { to: "/components", label: "Components", icon: Component },
   { to: "/typography", label: "Typography", icon: Type },
+  { to: "/ceo-dashboard", label: "CEO Dash", icon: BarChart3 },
 ];
 
 export function Sidebar() {

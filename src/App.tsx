@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore, useCallback } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Sidebar } from "@/components/nav/Sidebar";
@@ -10,8 +10,21 @@ import { HeroPage } from "@/pages/HeroPage";
 import { PricingPage } from "@/pages/PricingPage";
 import { ComponentsPage } from "@/pages/ComponentsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
+import { CeoDashboardPage } from "@/pages/CeoDashboardPage";
 import { TypographyPage } from "@/pages/TypographyPage";
 import { transitions } from "@/lib/motion";
+
+const mobileQuery = "(max-width: 768px)";
+
+function useIsMobile() {
+  const subscribe = useCallback((cb: () => void) => {
+    const mql = window.matchMedia(mobileQuery);
+    mql.addEventListener("change", cb);
+    return () => mql.removeEventListener("change", cb);
+  }, []);
+  const getSnapshot = () => window.matchMedia(mobileQuery).matches;
+  return useSyncExternalStore(subscribe, getSnapshot, () => false);
+}
 
 type NavVariant = "sidebar" | "topbar" | "minimal";
 
@@ -69,6 +82,7 @@ function AnimatedRoutes() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/components" element={<ComponentsPage />} />
           <Route path="/typography" element={<TypographyPage />} />
+          <Route path="/ceo-dashboard" element={<CeoDashboardPage />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -77,6 +91,7 @@ function AnimatedRoutes() {
 
 export default function App() {
   const [navVariant, setNavVariant] = useState<NavVariant>("topbar");
+  const isMobile = useIsMobile();
 
   // Set theme vars on document.body so FloatingSettings can override them
   // (must be body, not html — index.css sets fallback vars on body which would
@@ -103,7 +118,7 @@ export default function App() {
       />
 
       {/* Layout shell */}
-      {navVariant === "sidebar" ? (
+      {!isMobile && navVariant === "sidebar" ? (
         <div className="flex">
           <Sidebar />
           <div className="flex flex-col flex-1 min-w-0 min-h-screen">
@@ -115,7 +130,7 @@ export default function App() {
         </div>
       ) : (
         <div className="flex flex-col min-h-screen">
-          {navVariant === "topbar" ? <TopBar /> : <MinimalNav />}
+          {isMobile ? <MinimalNav /> : navVariant === "topbar" ? <TopBar /> : <MinimalNav />}
           <main className="flex-1">
             <AnimatedRoutes />
           </main>

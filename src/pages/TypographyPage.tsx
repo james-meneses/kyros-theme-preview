@@ -6,15 +6,16 @@ import { transitions, variants } from "@/lib/motion";
 /** Active palette display – shows current CSS variable values */
 function ActivePalette() {
   const swatches = [
-    { name: "bg", var: "--bg", hex: "#050505" },
-    { name: "bg-secondary", var: "--bg-secondary", hex: "#0D0D0D" },
-    { name: "card", var: "--bg-card", hex: "#151515" },
-    { name: "muted", var: "--muted", hex: "#1A1A1A" },
-    { name: "border", var: "--border", hex: "#252525" },
-    { name: "foreground", var: "--foreground", hex: "#FAFAFA" },
-    { name: "muted-fg", var: "--foreground-muted", hex: "#999999" },
-    { name: "primary", var: "--primary", hex: "#CCFF00" },
-    { name: "secondary", var: "--secondary", hex: "#6366F1" },
+    { name: "bg", var: "--bg" },
+    { name: "bg-secondary", var: "--bg-secondary" },
+    { name: "card", var: "--bg-card" },
+    { name: "muted", var: "--muted" },
+    { name: "border", var: "--border" },
+    { name: "foreground", var: "--foreground" },
+    { name: "muted-fg", var: "--foreground-muted" },
+    { name: "primary", var: "--primary" },
+    { name: "secondary", var: "--secondary" },
+    { name: "terciary", var: "--terciary" },
   ];
 
   return (
@@ -40,9 +41,6 @@ function ActivePalette() {
                 />
                 <div className="text-[10px] font-medium" style={{ color: "var(--foreground-muted)" }}>
                   {c.name}
-                </div>
-                <div className="font-mono text-[9px]" style={{ color: "var(--muted-foreground)" }}>
-                  {c.hex}
                 </div>
               </div>
             ))}

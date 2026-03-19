@@ -84,7 +84,7 @@ export function HeroPage() {
       {/* ═══ Section 1: Hero ═══ */}
       <motion.section
         ref={heroRef}
-        className="relative mb-12 sm:mb-16 md:mb-24 lg:mb-32 text-center"
+        className="mb-12 sm:mb-16 md:mb-24 lg:mb-32 text-center"
         {...heroStagger}
       >
         {/* Radial spotlight — theme-adaptive via CSS custom property */}
@@ -93,99 +93,102 @@ export function HeroPage() {
           style={{ y: parallaxY }}
         />
         {/* Subtle dot matrix texture — adds depth to hero background */}
-        <div className="pointer-events-none absolute inset-0 -top-32 hero-dot-matrix" />
+        <div className="pointer-events-none absolute z-0 inset-0 -top-32 hero-dot-matrix" />
         {/* Constellation particle field — slow-drifting dot layers */}
         <div className="hero-constellation" />
-        <motion.div {...heroChild}>
-          <Badge className="mb-6 text-xs px-4 py-1.5">
-            {hero.badge}
-          </Badge>
-        </motion.div>
 
-        <motion.h1
-          className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
-          style={{ fontFamily: "var(--font-heading)" }}
-          {...heroChild}
-        >
-          {hero.headline}
-          <br />
-          <span style={{ color: "var(--primary)" }}>{hero.headlineAccent}</span>
-        </motion.h1>
+        <div className='relative z-1'>
+          <motion.div {...heroChild}>
+            <Badge className="mb-6 text-xs px-4 py-1.5">
+              {hero.badge}
+            </Badge>
+          </motion.div>
 
-        <motion.p
-          className="mx-auto mb-10 max-w-2xl text-base sm:text-lg leading-relaxed"
-          style={{ color: "var(--foreground-muted)" }}
-          {...heroChild}
-        >
-          {hero.subheadline}
-        </motion.p>
-
-        <motion.div className="flex flex-wrap justify-center gap-4" {...heroChild}>
-          <motion.button
-            className="px-8 py-3.5 text-sm font-semibold cursor-pointer inline-flex items-center gap-2"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "var(--primary-foreground)",
-              borderRadius: "var(--radius)",
-              boxShadow: "0 0 30px var(--accent-muted)",
-            }}
-            whileHover={{ scale: 1.03, boxShadow: "0 0 40px var(--accent-muted)" }}
-            whileTap={{ scale: 0.98 }}
-            transition={transitions.micro}
+          <motion.h1
+            className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
+            style={{ fontFamily: "var(--font-heading)" }}
+            {...heroChild}
           >
-            {hero.primaryCta} <ArrowRight className="h-4 w-4" />
-          </motion.button>
-          <motion.button
-            className="border px-8 py-3.5 text-sm font-medium cursor-pointer"
+            {hero.headline}
+            <br />
+            <span style={{ color: "var(--primary)" }}>{hero.headlineAccent}</span>
+          </motion.h1>
+
+          <motion.p
+            className="mx-auto mb-10 max-w-2xl text-base sm:text-lg leading-relaxed"
+            style={{ color: "var(--foreground-muted)" }}
+            {...heroChild}
+          >
+            {hero.subheadline}
+          </motion.p>
+
+          <motion.div className="flex flex-wrap justify-center gap-4" {...heroChild}>
+            <motion.button
+              className="px-8 py-3.5 text-sm font-semibold cursor-pointer inline-flex items-center gap-2"
+              style={{
+                backgroundColor: "var(--primary)",
+                color: "var(--primary-foreground)",
+                borderRadius: "var(--radius)",
+                boxShadow: "0 0 30px var(--accent-muted)",
+              }}
+              whileHover={{ scale: 1.03, boxShadow: "0 0 40px var(--accent-muted)" }}
+              whileTap={{ scale: 0.98 }}
+              transition={transitions.micro}
+            >
+              {hero.primaryCta} <ArrowRight className="h-4 w-4" />
+            </motion.button>
+            <motion.button
+              className="border px-8 py-3.5 text-sm font-medium cursor-pointer"
+              style={{
+                borderColor: "var(--border)",
+                color: "var(--foreground)",
+                borderRadius: "var(--radius)",
+                backgroundColor: "transparent",
+              }}
+              whileHover={{ borderColor: "var(--primary)", color: "var(--primary)" }}
+              whileTap={{ scale: 0.98 }}
+              transition={transitions.micro}
+            >
+              {hero.secondaryCta}
+            </motion.button>
+          </motion.div>
+
+          {/* Stats bar */}
+          <motion.div
+            className="mt-8 sm:mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 border"
             style={{
               borderColor: "var(--border)",
-              color: "var(--foreground)",
               borderRadius: "var(--radius)",
-              backgroundColor: "transparent",
+              backgroundColor: "var(--bg-card)",
             }}
-            whileHover={{ borderColor: "var(--primary)", color: "var(--primary)" }}
-            whileTap={{ scale: 0.98 }}
-            transition={transitions.micro}
+            {...heroChild}
           >
-            {hero.secondaryCta}
-          </motion.button>
-        </motion.div>
-
-        {/* Stats bar */}
-        <motion.div
-          className="mt-8 sm:mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 border"
-          style={{
-            borderColor: "var(--border)",
-            borderRadius: "var(--radius)",
-            backgroundColor: "var(--bg-card)",
-          }}
-          {...heroChild}
-        >
-          {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={[
-                "px-3 sm:px-6 py-4 sm:py-6 text-center border-[var(--border)]",
-                i % 2 !== 0 ? "border-l" : "",
-                i >= 2 ? "border-t md:border-t-0" : "",
-                i > 0 && i % 2 === 0 ? "md:border-l" : "",
-              ].filter(Boolean).join(" ")}
-            >
+            {stats.map((stat, i) => (
               <div
-                className="text-2xl sm:text-3xl font-bold tabular-nums"
-                style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}
+                key={stat.label}
+                className={[
+                  "px-3 sm:px-6 py-4 sm:py-6 text-center border-[var(--border)]",
+                  i % 2 !== 0 ? "border-l" : "",
+                  i >= 2 ? "border-t md:border-t-0" : "",
+                  i > 0 && i % 2 === 0 ? "md:border-l" : "",
+                ].filter(Boolean).join(" ")}
               >
-                <AnimatedStat target={stat.value} suffix={stat.suffix} delay={i * 120} />
+                <div
+                  className="text-2xl sm:text-3xl font-bold tabular-nums"
+                  style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}
+                >
+                  <AnimatedStat target={stat.value} suffix={stat.suffix} delay={i * 120} />
+                </div>
+                <div className="mt-1 text-xs font-medium" style={{ color: "var(--foreground)" }}>
+                  {stat.label}
+                </div>
+                <div className="text-[10px]" style={{ color: "var(--foreground-muted)" }}>
+                  {stat.sublabel}
+                </div>
               </div>
-              <div className="mt-1 text-xs font-medium" style={{ color: "var(--foreground)" }}>
-                {stat.label}
-              </div>
-              <div className="text-[10px]" style={{ color: "var(--foreground-muted)" }}>
-                {stat.sublabel}
-              </div>
-            </div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </motion.section>
 
       <div className="section-divider" />

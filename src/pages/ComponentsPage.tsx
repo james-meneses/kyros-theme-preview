@@ -91,6 +91,7 @@ export function ComponentsPage() {
                 <div className="flex flex-wrap gap-3">
                   <Button>Primary</Button>
                   <Button variant="secondary">Secondary</Button>
+                  <Button variant="tertiary">Tertiary</Button>
                   <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
                   <Button variant="destructive">
@@ -412,7 +413,7 @@ export function ComponentsPage() {
 
             <Card>
               <CardContent>
-                <p className="text-xs font-mono mb-2" style={{ color: "var(--primary)" }}>SPRINT_VELOCITY</p>
+                <p className="text-xs font-mono mb-2" style={{ color: "var(--foreground)" }}>SPRINT_VELOCITY</p>
                 <div className="text-4xl font-bold mb-2" style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}>94%</div>
                 <Progress value={94} className="mb-2" />
                 <p className="text-xs" style={{ color: "var(--foreground-muted)" }}>8/8 tasks completed in Sprint #12</p>
@@ -421,7 +422,7 @@ export function ComponentsPage() {
 
             <Card>
               <CardContent>
-                <p className="text-xs font-mono mb-2" style={{ color: "var(--primary)" }}>COST_EFFICIENCY</p>
+                <p className="text-xs font-mono mb-2" style={{ color: "var(--foreground)" }}>COST_EFFICIENCY</p>
                 <div className="text-4xl font-bold mb-2" style={{ color: "var(--primary)", fontFamily: "var(--font-heading)" }}>$0.079</div>
                 <p className="text-xs mb-2" style={{ color: "var(--foreground-muted)" }}>Average cost per dispatch</p>
                 <div className="flex gap-1">

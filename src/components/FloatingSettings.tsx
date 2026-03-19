@@ -195,6 +195,16 @@ const secondarySwatches: ColorSwatch[] = [
   { hex: "#4D6E00", label: "Dark Olive" },
 ];
 
+const tertiarySwatches: ColorSwatch[] = [
+  { hex: "#6366F1", label: "Indigo-500" },
+  { hex: "#818CF8", label: "Indigo-400" },
+  { hex: "#4F46E5", label: "Indigo-600" },
+  { hex: "#A5B4FC", label: "Indigo-300" },
+  { hex: "#8B5CF6", label: "Violet-500" },
+  { hex: "#EC4899", label: "Pink-500" },
+  { hex: "#F59E0B", label: "Amber-400" },
+];
+
 // ─────────────────────────────────────────────────────────
 
 const headingFonts = [
@@ -314,6 +324,7 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
   const [activePreset, setActivePreset] = useState(themePresets[0].id);
   const [activePrimaryColor, setActivePrimaryColor] = useState(themePresets[0].vars["--primary"]);
   const [activeSecondaryColor, setActiveSecondaryColor] = useState(themePresets[0].vars["--secondary"]);
+  const [activeTertiaryColor, setActiveTertiaryColor] = useState(themePresets[0].vars["--terciary"]);
   const [headingFont, setHeadingFont] = useState(headingFonts[0].value);
   const [bodyFont, setBodyFont] = useState(bodyFonts[0].value);
   const [radius, setRadius] = useState(8);
@@ -351,6 +362,7 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
     applyPreset(preset);
     setActivePrimaryColor(preset.vars["--primary"]);
     setActiveSecondaryColor(preset.vars["--secondary"]);
+    setActiveTertiaryColor(preset.vars["--terciary"]);
     const mfHex = preset.vars["--muted-foreground"].slice(1, 3);
     setMutedFgLevel(parseInt(mfHex, 16));
     const bgHex = preset.vars["--bg"].slice(1, 3);
@@ -396,6 +408,11 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
   function applySecondaryColor(hex: string) {
     setRootVar("--secondary", hex);
     setActiveSecondaryColor(hex);
+  }
+
+  function applyTertiaryColor(hex: string) {
+    setRootVar("--terciary", hex);
+    setActiveTertiaryColor(hex);
   }
 
   function updateHeadingFont(value: string) {
@@ -573,6 +590,14 @@ export function FloatingSettings({ navVariant, onNavVariantChange }: FloatingSet
               swatches={secondarySwatches}
               activeHex={activeSecondaryColor}
               onSelect={applySecondaryColor}
+            />
+
+            {/* ── Tertiary Color ── */}
+            <SwatchRow
+              label="Tertiary Color"
+              swatches={tertiarySwatches}
+              activeHex={activeTertiaryColor}
+              onSelect={applyTertiaryColor}
             />
 
             {/* ── Muted Text ── */}

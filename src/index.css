@@ -216,6 +216,8 @@ body {
   --color-foreground-muted: var(--foreground-muted);
   --color-accent-muted: var(--accent-muted);
   --color-border-accent: var(--border-accent);
+  --color-tertiary: var(--terciary);
+  --color-tertiary-foreground: var(--terciary-foreground);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);

@@ -6,6 +6,10 @@ import {
   Type,
   ChevronLeft,
   DollarSign,
+  GitBranch,
+  Briefcase,
+  FileText,
+  Cpu,
 } from "lucide-react";
 import { useState } from "react";
 import { KyrosLogo } from "@/components/KyrosLogo";
@@ -13,6 +17,11 @@ import { KyrosLogo } from "@/components/KyrosLogo";
 const links = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
   { to: "/pricing", label: "Pricing", icon: DollarSign },
+  { to: "/comparison", label: "Compare", icon: GitBranch },
+  { to: "/roi", label: "ROI", icon: DollarSign },
+  { to: "/features", label: "Features", icon: Cpu },
+  { to: "/pitch", label: "Pitch", icon: Briefcase },
+  { to: "/case-study", label: "Case Study", icon: FileText },
   { to: "/dashboard", label: "Dashboard", icon: BarChart3 },
   { to: "/components", label: "Components", icon: Component },
   { to: "/typography", label: "Typography", icon: Type },

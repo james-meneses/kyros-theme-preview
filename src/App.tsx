@@ -12,6 +12,11 @@ import { ComponentsPage } from "@/pages/ComponentsPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { CeoDashboardPage } from "@/pages/CeoDashboardPage";
 import { TypographyPage } from "@/pages/TypographyPage";
+import { ComparisonPage } from "@/pages/ComparisonPage";
+import { RoiPage } from "@/pages/RoiPage";
+import { PitchPage } from "@/pages/PitchPage";
+import { CaseStudyPage } from "@/pages/CaseStudyPage";
+import { FeaturesPage } from "@/pages/FeaturesPage";
 import { transitions } from "@/lib/motion";
 
 const mobileQuery = "(max-width: 768px)";
@@ -80,6 +85,11 @@ function AnimatedRoutes() {
           <Route path="/" element={<HeroPage />} />
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/comparison" element={<ComparisonPage />} />
+          <Route path="/roi" element={<RoiPage />} />
+          <Route path="/pitch" element={<PitchPage />} />
+          <Route path="/case-study" element={<CaseStudyPage />} />
+          <Route path="/features" element={<FeaturesPage />} />
           <Route path="/components" element={<ComponentsPage />} />
           <Route path="/typography" element={<TypographyPage />} />
           <Route path="/ceo-dashboard" element={<CeoDashboardPage />} />
